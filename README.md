@@ -15,6 +15,8 @@ Author and developer: ___A.A. Suvorov___
 
 > ATTENTION! Before running the application, you must generate an ssh key for GitHub on your system and add it to your GitHub account.
 
+> You can use a ready-made tool: [github-ssh-key](https://github.com/smartlegionlab/github-ssh-key/) or:
+
 - `ssh-keygen -t ed25519 -C "email@gmail.com"` Replace with your email.
 - `eval "$(ssh-agent -s)"`
 - `ssh-add ~/.ssh/id_ed25519`
