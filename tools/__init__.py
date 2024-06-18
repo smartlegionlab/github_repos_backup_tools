@@ -7,4 +7,4 @@
 # https://github.com/smartlegionlab
 # --------------------------------------------------------
 """GitHub Repositories Backup Tool"""
-__version__ = '0.0.1'
+

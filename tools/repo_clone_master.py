@@ -24,4 +24,5 @@ class RepoCloneMaster:
             os.makedirs(repo_path, exist_ok=True)
             # subprocess.run(['git', 'clone', repo_ssh_url, repo_path])
             os.system(f'git clone {repo_ssh_url} {repo_path}')
+            print('-' * 30)
             print(f'{n}) Cloned {repo_name} successfully! [ok]')

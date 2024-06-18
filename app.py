@@ -9,7 +9,7 @@
 import os
 from dotenv import load_dotenv
 from tools.app_manager import AppManager
-from tools.githib_api_manager import GitHubAPI
+from tools.github_api_manager import GitHubAPI
 from tools.repo_clone_master import RepoCloneMaster
 
 
