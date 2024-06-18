@@ -38,6 +38,8 @@ The check should be successful.
 - Create file .env. `echo -e "GITHUB_API_TOKEN=TOKEN\nGITHUB_NAME=USERNAME" > .env`
 - Add keys and values to the file, where the value are your GitHub api token and GitHub username:
 
+> How to generate a token? [Follow the link and create Personal access tokens (classic)](https://github.com/settings/tokens/new). Press 'Generate new token'. Select repo, generate and copy the token.
+
 Exemple file`.env`:
 ```text
 GITHUB_API_TOKEN=TOKEN
