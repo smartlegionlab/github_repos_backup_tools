@@ -7,19 +7,20 @@
 # https://github.com/smartlegionlab
 # --------------------------------------------------------
 from tools.config import Config
+from tools.githib_api_manager import GitHubAPI
 from tools.smart_printer import SmartPrinter
 
 
 class AppManager:
-    _config = Config()
-    _printer = SmartPrinter()
+    config = Config()
+    printer = SmartPrinter()
 
     @classmethod
     def show_head(cls):
-        cls._printer.echo()
-        cls._printer.echo(cls._config.app_name)
+        cls.printer.echo()
+        cls.printer.echo(cls.config.app_name)
 
     @classmethod
     def show_footer(cls):
-        cls._printer.echo(cls._config.help_url)
-        cls._printer.echo(cls._config.copyright_)
+        cls.printer.echo(cls.config.help_url)
+        cls.printer.echo(cls.config.copyright_)
