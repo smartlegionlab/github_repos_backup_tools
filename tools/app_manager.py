@@ -6,8 +6,9 @@
 # --------------------------------------------------------
 # https://github.com/smartlegionlab
 # --------------------------------------------------------
+import os
+
 from tools.config import Config
-from tools.githib_api_manager import GitHubAPI
 from tools.smart_printer import SmartPrinter
 
 
