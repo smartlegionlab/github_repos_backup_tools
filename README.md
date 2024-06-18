@@ -29,16 +29,16 @@ Copy the key from the `/home/name/.ssh/id_ed25519.pub` file and add it to your G
 The check should be successful.
 
 - `cd ~`
-- Download project in HOME dir: `wget -P https://github.com/smartlegionlab/github_repos_backup_tools/archive/refs/heads/master.zip` 
-- Unzip the project. For example: `unzip master.zip -d github_repos_backup_tools`.
-- Go to your project folder. Or: `cd github_repos_backup_tools'
+- [Download project in HOME dir](https://github.com/smartlegionlab/github_repos_backup_tools/archive/refs/heads/master.zip) or: `wget -P https://github.com/smartlegionlab/github_repos_backup_tools/archive/refs/heads/master.zip` 
+- Create a folder "github_repos_backup_tools" and unzip the archive with the project into it. For example: `unzip master.zip -d github_repos_backup_tools`.
+- Go to your project folder. Or: `cd github_repos_backup_tools`
 - `python -m venv venv`
 - `source venv/bin/activate`
 - `pip install -r requirements.txt`
 - Create file .env. `echo -e "GITHUB_API_TOKEN=TOKEN\nGITHUB_NAME=USERNAME" > .env`
 - Add keys and values to the file, where the value are your GitHub api token and GitHub username:
 
-Exemple:
+Exemple file`.env`:
 ```text
 GITHUB_API_TOKEN=TOKEN
 GITHUB_NAME=USERNAME
