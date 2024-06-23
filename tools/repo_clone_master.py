@@ -1,6 +1,5 @@
 import os
 import shutil
-import subprocess
 
 
 class RepoCloneMaster:
@@ -12,7 +11,7 @@ class RepoCloneMaster:
 
         home_directory = os.path.expanduser('~')
         clone_path = os.path.join(home_directory, 'github_repositories')
-
+        num_of_repo = len(repos)
         for n, repo in enumerate(repos, 1):
             repo_name = repo['name']
             repo_ssh_url = repo['ssh_url']
@@ -22,10 +21,9 @@ class RepoCloneMaster:
                 shutil.rmtree(repo_path)
 
             os.makedirs(repo_path, exist_ok=True)
-            # subprocess.run(['git', 'clone', repo_ssh_url, repo_path])
             os.system(f'git clone {repo_ssh_url} {repo_path}')
             print('-' * 30)
-            msg = f'{n}) Cloned {repo_name} successfully! [ok]'
+            msg = f'{n}/{num_of_repo}. Cloned {repo_name} successfully! [ok]'
             length = len(msg)
             print('-' * length)
             print(msg)
