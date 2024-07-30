@@ -11,6 +11,12 @@ Author and developer: ___A.A. Suvorov___
 
 ***
 
+## What's new:
+
+- Cloning repositories with all branches.
+
+***
+
 ## Help:
 
 > ATTENTION! Before running the application, you must generate an ssh key for GitHub on your system and add it to your GitHub account.
@@ -55,6 +61,7 @@ GITHUB_NAME=USERNAME
 
 1. Archiving the folder with cloned repositories.
 2. Uploading the created archive to Google Disk.
+3. Clone gists.
 
 ***
 
