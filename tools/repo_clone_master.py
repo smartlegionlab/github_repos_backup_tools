@@ -29,7 +29,7 @@ class RepoCloneMaster:
                 shutil.rmtree(repo_path)
 
             os.makedirs(repo_path, exist_ok=True)
-            os.system(f'git clone --mirror {repo_ssh_url} {repo_path} ')
+            os.system(f'git clone {repo_ssh_url} {repo_path} ')
             print('-' * 30)
             msg = f'{n}/{num_of_repo}. Cloned {repo_name} successfully! [ok]'
             length = len(msg)

@@ -13,7 +13,7 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-- Cloning repositories with all branches.
+- Fix errors
 
 ***
 
