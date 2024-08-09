@@ -1,9 +1,16 @@
-# GitHub Repositories Backup Tool
+# GitHub Repositories Backup Tool <sup>v0.2.0</sup>
 
 ---
 
-> Application for creating backup copies of repositories on GitHub.
-> Creates a "github_repositories" folder in the user's home folder and clones repositories into it.
+> Application for creating backup copies of repositories and gists on GitHub.
+> Creates a "your_name_github_backup" folder in the user's home folder and clones repositories and gists into it.
+
+***
+
+
+## Images:
+
+![logo](https://github.com/smartlegionlab/github_repos_backup_tools/raw/master/data/images/github_repos_backup_tools.png)
 
 ***
 
@@ -13,7 +20,16 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-- Fix errors
+github_repos_backup_tools v0.2.0
+
+- Completely rewritten application code
+- Fixed bugs
+- Improved performance
+- Added the ability to clone gists
+- Added main menu with the ability to select cloning (repositories, gists, repositories + gists)
+- Renamed the main folder for storing repositories
+- Gists and repositories are stored in different folders inside the main folder
+- Cloning a repository + gists will create an archive of the main folder.
 
 ***
 
@@ -43,25 +59,17 @@ The check should be successful.
 - `python -m venv venv`
 - `source venv/bin/activate`
 - `pip install -r requirements.txt`
-- Create file .env. `echo -e "GITHUB_API_TOKEN=TOKEN\nGITHUB_NAME=USERNAME" > .env`
+- Create file .env or `echo -e "GITHUB_API_TOKEN=TOKEN\nGITHUB_NAME=USERNAME" > .env`
 - Add keys and values to the file, where the value are your GitHub api token and GitHub username:
 
-> How to generate a token? [Follow the link and create Personal access tokens (classic)](https://github.com/settings/tokens/new). Press 'Generate new token'. Select repo, generate and copy the token.
+> How to generate a token? [Follow the link and create Personal access tokens (classic)](https://github.com/settings/tokens/new). Press 'Generate new token'. Select "repo", select "gists", generate and copy the token.
 
 Exemple file`.env`:
 ```text
-GITHUB_API_TOKEN=TOKEN
-GITHUB_NAME=USERNAME
+GITHUB_API_TOKEN=<YOUR TOKEN>
+GITHUB_NAME=<YOUR USERNAME>
 ```
 - `python app.py`
-
-***
-
-## In the plans:
-
-1. Archiving the folder with cloned repositories.
-2. Uploading the created archive to Google Disk.
-3. Clone gists.
 
 ***
 
@@ -84,6 +92,6 @@ GITHUB_NAME=USERNAME
     --------------------------------------------------------
     Licensed under the terms of the BSD 3-Clause License
     (see LICENSE for details).
-    Copyright © 2018-2024, A.A. Suvorov
+    Copyright © 2024, A.A. Suvorov
     All rights reserved.
     --------------------------------------------------------
