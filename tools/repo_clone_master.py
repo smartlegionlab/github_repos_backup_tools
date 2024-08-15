@@ -9,8 +9,11 @@
 import os
 import shutil
 
+from tools.smart_printer import SmartPrinter
+
 
 class RepoCloneMaster:
+    printer = SmartPrinter()
 
     @classmethod
     def clone_repo(cls, name='anon', repos=None, gists=None):
@@ -44,33 +47,25 @@ class RepoCloneMaster:
 
     @classmethod
     def _clone_repositories(cls, repos, repositories_path):
+        items_count = len(repos)
         for n, repo in enumerate(repos, 1):
             repo_name = repo['name']
             repo_ssh_url = repo['ssh_url']
             repo_path = os.path.join(repositories_path, repo_name)
 
-            cls._clone_git_repo(repo_ssh_url, repo_path, n, len(repos), repo_name)
+            cls._clone_git_repo(repo_ssh_url, repo_path, n, items_count, repo_name)
 
     @classmethod
     def _clone_gists(cls, gists, gists_path):
+        items_count = len(gists)
         for n, gist in enumerate(gists, 1):
             gist_id = gist['id']
             gist_url = f'https://gist.github.com/{gist_id}.git'
             gist_path = os.path.join(gists_path, gist_id)
-
-            cls._clone_git_repo(gist_url, gist_path, n, len(gists), f'Gist {gist_id}')
+            cls._clone_git_repo(gist_url, gist_path, n, items_count, f'Gist {gist_id}')
 
     @classmethod
     def _clone_git_repo(cls, git_url, path, n, total, name):
-        cls._prepare_directory(path)
+        msg = f'{n}/{total} Name: {name}'
+        cls.printer.print_framed(text=msg)
         os.system(f'git clone {git_url} {path}')
-        cls._print_success_message(n, total, name)
-
-    @classmethod
-    def _print_success_message(cls, n, total, name):
-        print('-' * 30)
-        msg = f'{n}/{total}. Cloned {name} successfully! [ok]'
-        length = len(msg)
-        print('-' * length)
-        print(msg)
-        print('-' * length)

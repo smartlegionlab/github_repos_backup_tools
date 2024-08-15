@@ -1,9 +1,18 @@
-# GitHub Repositories Backup Tool <sup>v0.2.0</sup>
+# GitHub Repositories Backup Tool <sup>v0.2.1</sup>
 
 ---
 
-> Application for creating backup copies of repositories and gists on GitHub.
-> Creates a "your_name_github_backup" folder in the user's home folder and clones repositories and gists into it.
+> An application for creating backup copies of repositories and GitHub (including private ones).
+
+- Automatic cloning
+- Selecting a cloning method
+- Cloning only repositories
+- Cloning only gists
+- Cloning both repositories and gists
+- Launching the application with additional arguments
+- Automatic archiving of the folder with repositories
+
+The folder and archive with cloned repositories are stored in your home directory.
 
 ***
 
@@ -20,16 +29,18 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-github_repos_backup_tools v0.2.0
+github_repos_backup_tools v0.2.1
 
-- Completely rewritten application code
-- Fixed bugs
-- Improved performance
-- Added the ability to clone gists
-- Added main menu with the ability to select cloning (repositories, gists, repositories + gists)
-- Renamed the main folder for storing repositories
-- Gists and repositories are stored in different folders inside the main folder
-- Cloning a repository + gists will create an archive of the main folder.
+- Added the ability to launch the application with additional arguments.
+- Fixed bugs.
+- Improved performance.
+- Improved user interface.
+
+***
+
+## Todo:
+
+- Automatic/Manual cloning mode.
 
 ***
 
@@ -69,7 +80,12 @@ Exemple file`.env`:
 GITHUB_API_TOKEN=<YOUR TOKEN>
 GITHUB_NAME=<YOUR USERNAME>
 ```
-- `python app.py`
+
+- `python app.py`. Show main menu.
+- `python app.py -r` - Automatically clone GitHub repositories and archive the folder.
+- `python app.py -g` - Automatically clone GitHub gists and archive the folder.
+- `python app.py -r -g` - Automatically clone GitHub repositories and gists, and archive the folder.
+- `python app.py -r -g --no-archive` - Automatically clone GitHub repositories and gists, but do not archive the folder.
 
 ***
 
