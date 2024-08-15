@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tool <sup>v0.2.1</sup>
+# GitHub Repositories Backup Tool <sup>v0.2.2</sup>
 
 ---
 
@@ -29,7 +29,7 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-github_repos_backup_tools v0.2.1
+github_repos_backup_tools v0.2.2
 
 - Added the ability to launch the application with additional arguments.
 - Fixed bugs.

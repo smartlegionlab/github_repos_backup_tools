@@ -84,6 +84,7 @@ class AppManager:
         print(f'GitHub name: {self._name} | Repositories: {len(repos)}')
         self.repo_clone_master.clone_repo(name=self._name, repos=repos)
         if archive_flag:
+            self.smart_printer.print_center()
             self.create_archive()
 
     def clone_gists(self, archive_flag=True):
@@ -94,6 +95,7 @@ class AppManager:
         print(f'GitHub name: {self._name} | Gists: {len(gists)}')
         self.repo_clone_master.clone_repo(name=self._name, gists=gists)
         if archive_flag:
+            self.smart_printer.print_center()
             self.create_archive()
 
     def clone_repositories_and_gists(self, archive_flag=True):
@@ -101,6 +103,7 @@ class AppManager:
         self.clone_repositories(archive_flag=False)
         self.clone_gists(archive_flag=False)
         if archive_flag:
+            self.smart_printer.print_center()
             self.create_archive()
 
     def create_archive(self):

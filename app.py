@@ -33,11 +33,11 @@ def main():
     parser.add_argument('--no-archive', action='store_true', help='Do not create archive')
     args = parser.parse_args()
     if args.r and args.g:
-        app_manager.clone_repositories_and_gists(archive_flag=args.no_archive)
+        app_manager.clone_repositories_and_gists(archive_flag=not args.no_archive)
     elif args.r:
-        app_manager.clone_repositories(archive_flag=args.no_archive)
+        app_manager.clone_repositories(archive_flag=not args.no_archive)
     elif args.g:
-        app_manager.clone_gists(archive_flag=args.no_archive)
+        app_manager.clone_gists(archive_flag=not args.no_archive)
     else:
         app_manager.main_menu()
     app_manager.show_footer()
