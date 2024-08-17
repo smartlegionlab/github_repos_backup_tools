@@ -30,14 +30,14 @@ def main():
     parser = argparse.ArgumentParser(description='GitHub Repositories Backup Tools')
     parser.add_argument('-r', action='store_true', help='Cloning repositories')
     parser.add_argument('-g', action='store_true', help='Cloning gists')
-    parser.add_argument('--no-archive', action='store_true', help='Do not create archive')
+    parser.add_argument('--archive', action='store_true', help='Create archive')
     args = parser.parse_args()
     if args.r and args.g:
-        app_manager.clone_repositories_and_gists(archive_flag=not args.no_archive)
+        app_manager.clone_repositories_and_gists(archive_flag=args.no_archive)
     elif args.r:
-        app_manager.clone_repositories(archive_flag=not args.no_archive)
+        app_manager.clone_repositories(archive_flag=args.archive)
     elif args.g:
-        app_manager.clone_gists(archive_flag=not args.no_archive)
+        app_manager.clone_gists(archive_flag=args.archive)
     else:
         app_manager.main_menu()
     app_manager.show_footer()

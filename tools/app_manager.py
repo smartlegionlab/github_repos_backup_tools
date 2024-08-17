@@ -23,7 +23,7 @@ class AppManager:
         self._token = None
 
     @staticmethod
-    def _continue():
+    def _to_continue():
         input('Press enter to continue... ')
 
     @property
@@ -54,7 +54,7 @@ class AppManager:
 
     def show_error(self, msg):
         self.smart_printer.print_framed(msg)
-        self._continue()
+        self._to_continue()
 
     def main_menu(self):
         while True:
@@ -99,7 +99,7 @@ class AppManager:
             self.create_archive()
 
     def clone_repositories_and_gists(self, archive_flag=True):
-        self.smart_printer.print_center('Cloning repositories + gists + create archive:')
+        self.smart_printer.print_center('Cloning repositories + gists:')
         self.clone_repositories(archive_flag=False)
         self.clone_gists(archive_flag=False)
         if archive_flag:

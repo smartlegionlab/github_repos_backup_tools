@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tool <sup>v0.2.2</sup>
+# GitHub Repositories Backup Tool <sup>v0.3.0</sup>
 
 ---
 
@@ -29,12 +29,9 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-github_repos_backup_tools v0.2.2
+github_repos_backup_tools v0.3.0
 
-- Added the ability to launch the application with additional arguments.
-- Fixed bugs.
-- Improved performance.
-- Improved user interface.
+- Renamed argument for creating archive.
 
 ***
 
@@ -82,10 +79,10 @@ GITHUB_NAME=<YOUR USERNAME>
 ```
 
 - `python app.py`. Show main menu.
-- `python app.py -r` - Automatically clone GitHub repositories and archive the folder.
-- `python app.py -g` - Automatically clone GitHub gists and archive the folder.
-- `python app.py -r -g` - Automatically clone GitHub repositories and gists, and archive the folder.
-- `python app.py -r -g --no-archive` - Automatically clone GitHub repositories and gists, but do not archive the folder.
+- `python app.py -r` - Automatically clone GitHub repositories.
+- `python app.py -g` - Automatically clone GitHub gists.
+- `python app.py -r -g` - Automatically clone GitHub repositories and gists.
+- `python app.py -r -g --archive` - Automatically clone GitHub repositories and gists, and create archive.
 
 ***
 
