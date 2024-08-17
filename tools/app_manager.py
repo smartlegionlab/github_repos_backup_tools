@@ -97,46 +97,47 @@ class AppManager:
             else:
                 self.show_error('Invalid choice')
 
-    def clone_repositories(self, archive_flag=None, auto_mode=None):
-        self.smart_printer.print_center('Cloning repositories:')
+    def _clone(self, archive_flag, auto_mode, type_):
         print('Please wait...')
-        repo_data_master = ReposDataMaster(self._name, self._token)
-        repos = repo_data_master.get_data()
+        if type_ == 'repositories':
+            repo_data_master = ReposDataMaster(self._name, self._token)
+            items = repo_data_master.get_data()
+            repo_type = 'Repositories'
+        else:
+            gists_data_master = GistsDataMaster(self._name, self._token)
+            items = gists_data_master.get_data()
+            repo_type = 'Gists'
         self.smart_printer.print_center()
-        print(f'GitHub name: {self._name} | Repositories: {len(repos)}')
+        print(f'GitHub name: {self._name} | {repo_type}: {len(items)}')
         if auto_mode is None:
             self.smart_printer.print_center()
             auto_mode = self.get_action('Automatic cloning?')
         if archive_flag is None:
             self.smart_printer.print_center()
             archive_flag = self.get_action('Create archive?')
-        self.repo_clone_master.clone_repo(name=self._name, repos=repos, auto_mode=auto_mode)
+        if type_ == 'repositories':
+            self.repo_clone_master.clone(name=self._name, items=items, auto_mode=auto_mode, type_=type_)
+        else:
+            self.repo_clone_master.clone(name=self._name, items=items, auto_mode=auto_mode, type_=type_)
         if archive_flag:
             self.smart_printer.print_center()
             self.create_archive()
+
+    def clone_repositories(self, archive_flag=None, auto_mode=None):
+        self.smart_printer.print_center('Cloning repositories:')
+        self._clone(archive_flag, auto_mode, type_='repositories')
 
     def clone_gists(self, archive_flag=None, auto_mode=None):
         self.smart_printer.print_center('Cloning gists:')
-        print('Please wait...')
-        gists_data_master = GistsDataMaster(self._name, self._token)
-        gists = gists_data_master.get_data()
-        self.smart_printer.print_center()
-        print(f'GitHub name: {self._name} | Gists: {len(gists)}')
-        if auto_mode is None:
-            self.smart_printer.print_center()
-            auto_mode = self.get_action('Automatic cloning?')
-        if archive_flag is None:
-            self.smart_printer.print_center()
-            archive_flag = self.get_action('Create archive?')
-        self.repo_clone_master.clone_repo(name=self._name, gists=gists, auto_mode=auto_mode)
-        if archive_flag:
-            self.smart_printer.print_center()
-            self.create_archive()
+        self._clone(archive_flag, auto_mode, type_='gists')
 
     def clone_repositories_and_gists(self, archive_flag=None, auto_mode=None):
         self.smart_printer.print_center('Cloning repositories + gists:')
-        self.clone_repositories(archive_flag=archive_flag, auto_mode=auto_mode)
-        self.clone_gists(archive_flag=archive_flag, auto_mode=auto_mode)
+        self.clone_repositories(archive_flag=False, auto_mode=auto_mode)
+        self.clone_gists(archive_flag=False, auto_mode=auto_mode)
+        if archive_flag is None:
+            self.smart_printer.print_center()
+            archive_flag = self.get_action('Create archive?')
         if archive_flag:
             self.smart_printer.print_center()
             self.create_archive()
