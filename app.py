@@ -31,13 +31,14 @@ def main():
     parser.add_argument('-r', action='store_true', help='Cloning repositories')
     parser.add_argument('-g', action='store_true', help='Cloning gists')
     parser.add_argument('--archive', action='store_true', help='Create archive')
+    parser.add_argument('--no-auto', action='store_true', help='Disabling automatic mode')
     args = parser.parse_args()
     if args.r and args.g:
-        app_manager.clone_repositories_and_gists(archive_flag=args.no_archive)
+        app_manager.clone_repositories_and_gists(archive_flag=args.archive, auto_mode=not args.no_auto)
     elif args.r:
-        app_manager.clone_repositories(archive_flag=args.archive)
+        app_manager.clone_repositories(archive_flag=args.archive, auto_mode=not args.no_auto)
     elif args.g:
-        app_manager.clone_gists(archive_flag=args.archive)
+        app_manager.clone_gists(archive_flag=args.archive, auto_mode=not args.no_auto)
     else:
         app_manager.main_menu()
     app_manager.show_footer()

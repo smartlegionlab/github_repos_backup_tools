@@ -16,7 +16,15 @@ class RepoCloneMaster:
     printer = SmartPrinter()
 
     @classmethod
-    def clone_repo(cls, name='anon', repos=None, gists=None):
+    def get_action(cls, n, total, name):
+        cls.printer.print_center()
+        user_input = input(f'{n}/{total}. Cloning {name}? y|n: ')
+        if user_input in ['y', 'Y', 'yes', 'Yes', '']:
+            return True
+        return False
+
+    @classmethod
+    def clone_repo(cls, name='anon', repos=None, gists=None, auto_mode=True):
         repos = repos or []
         gists = gists or []
 
@@ -26,11 +34,11 @@ class RepoCloneMaster:
 
         if repos:
             cls._prepare_directory(repositories_path)
-            cls._clone_repositories(repos, repositories_path)
+            cls._clone_repositories(repos, repositories_path, auto_mode=auto_mode)
 
         if gists:
             cls._prepare_directory(gists_path)
-            cls._clone_gists(gists, gists_path)
+            cls._clone_gists(gists, gists_path, auto_mode=auto_mode)
 
     @classmethod
     def _create_clone_directory(cls, name):
@@ -46,26 +54,35 @@ class RepoCloneMaster:
         os.makedirs(path)
 
     @classmethod
-    def _clone_repositories(cls, repos, repositories_path):
+    def _clone_repositories(cls, repos, repositories_path, auto_mode=True):
         items_count = len(repos)
         for n, repo in enumerate(repos, 1):
             repo_name = repo['name']
             repo_ssh_url = repo['ssh_url']
             repo_path = os.path.join(repositories_path, repo_name)
-
+            if not auto_mode:
+                action = cls.get_action(n, items_count, repo_name)
+                if not action:
+                    print(f'NOT CLONED! Skip...')
+                    continue
             cls._clone_git_repo(repo_ssh_url, repo_path, n, items_count, repo_name)
 
     @classmethod
-    def _clone_gists(cls, gists, gists_path):
+    def _clone_gists(cls, gists, gists_path, auto_mode=True):
         items_count = len(gists)
         for n, gist in enumerate(gists, 1):
             gist_id = gist['id']
             gist_url = f'https://gist.github.com/{gist_id}.git'
             gist_path = os.path.join(gists_path, gist_id)
+            if not auto_mode:
+                action = cls.get_action(n, items_count, gist_id)
+                if not action:
+                    print(f'NOT CLONED! Skip...')
+                    continue
             cls._clone_git_repo(gist_url, gist_path, n, items_count, f'Gist {gist_id}')
 
     @classmethod
     def _clone_git_repo(cls, git_url, path, n, total, name):
-        msg = f'{n}/{total} Name: {name}'
+        msg = f'{n}/{total} Cloning {name}: '
         cls.printer.print_framed(text=msg)
         os.system(f'git clone {git_url} {path}')
