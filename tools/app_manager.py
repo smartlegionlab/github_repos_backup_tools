@@ -27,22 +27,8 @@ class AppManager:
         input('Press enter to continue... ')
 
     @staticmethod
-    def get_auto_mode():
-        action = input('Automatic cloning? y|n: ')
-        if action == 'y':
-            return True
-        return False
-
-    @staticmethod
-    def get_archive_mode():
-        action = input('Create archive?? y|n: ')
-        if action == 'y':
-            return True
-        return False
-
-    @staticmethod
     def get_action(title):
-        action = input(f'{title} y|n: ')
+        action = input(title)
         if action == 'y':
             return True
         return False
@@ -108,13 +94,13 @@ class AppManager:
             items = gists_data_master.get_data()
             repo_type = 'Gists'
         self.smart_printer.print_center()
-        print(f'GitHub name: {self._name} | {repo_type}: {len(items)}')
+        self.smart_printer.print_center(f'GitHub name: {self._name} | {repo_type}: {len(items)}')
         if auto_mode is None:
             self.smart_printer.print_center()
-            auto_mode = self.get_action('Automatic cloning?')
+            auto_mode = self.get_action('Automatic cloning? y|n: ')
         if archive_flag is None:
             self.smart_printer.print_center()
-            archive_flag = self.get_action('Create archive?')
+            archive_flag = self.get_action('Create archive? y|n: ')
         if type_ == 'repositories':
             self.repo_clone_master.clone(name=self._name, items=items, auto_mode=auto_mode, type_=type_)
         else:
@@ -137,7 +123,7 @@ class AppManager:
         self.clone_gists(archive_flag=False, auto_mode=auto_mode)
         if archive_flag is None:
             self.smart_printer.print_center()
-            archive_flag = self.get_action('Create archive?')
+            archive_flag = self.get_action('Create archive? y|n: ')
         if archive_flag:
             self.smart_printer.print_center()
             self.create_archive()
