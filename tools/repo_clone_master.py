@@ -7,7 +7,7 @@
 # https://github.com/smartlegionlab/
 # --------------------------------------------------------
 import os
-import shutil
+# import shutil
 
 from tools.smart_printer import SmartPrinter
 
@@ -60,7 +60,10 @@ class RepoCloneMaster:
             item_path = os.path.join(base_path, name)
 
             if os.path.exists(item_path):
-                shutil.rmtree(item_path)
+                cls.printer.print_center()
+                cls.printer.print_framed(text=f'{n}/{items_count} Git pull origin master ({name}):')
+                os.system(f'git -C {item_path} pull origin master')
+                continue
 
             if not auto_mode:
                 action = cls._get_action(n, items_count, name)
@@ -73,6 +76,7 @@ class RepoCloneMaster:
             else:
                 msg = f'{n}/{items_count} Cloning {name}: '
                 cls.printer.print_framed(text=msg)
+
             os.system(f'git clone {url} {item_path}')
 
     @classmethod
