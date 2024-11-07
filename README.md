@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tool <sup>v0.3.0</sup>
+# GitHub Repositories Backup Tool <sup>v0.3.1</sup>
 
 ---
 
@@ -26,13 +26,9 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-github_repos_backup_tools v0.3.0
+github_repos_backup_tools v0.3.1
 
-- Fixed bugs.
-- Increased performance.
-- Renamed argument for creating archive.
-- Select cloning mode Automatic/Manual.
-- Stop cloning in manual mode.
+- The "git push" command instead of deleting the project folder and cloning it again.
 
 ***
 
