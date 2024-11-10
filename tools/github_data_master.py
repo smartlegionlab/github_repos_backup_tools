@@ -6,7 +6,9 @@
 # --------------------------------------------------------
 # https://github.com/smartlegionlab/
 # --------------------------------------------------------
-import requests
+import urllib.request
+import urllib.parse
+import json
 
 
 class GitHubDataMaster:
@@ -25,16 +27,21 @@ class GitHubDataMaster:
         per_page = 100
 
         while True:
-            params = {'page': page, 'per_page': per_page}
-            response = requests.get(self._url, headers=self.headers, params=params)
-            data = response.json()
-            if not data:
-                break
+            url = f"{self._url}?page={page}&per_page={per_page}"
+            req = urllib.request.Request(url, headers=self.headers)
+            with urllib.request.urlopen(req) as response:
+                if response.status == 200:
+                    data = json.loads(response.read().decode('utf-8'))
+                    if not data:
+                        break
 
-            for repo in data:
-                clone_urls.append(repo)
+                    for repo in data:
+                        clone_urls.append(repo)
 
-            page += 1
+                    page += 1
+                else:
+                    raise Exception(f"Error: {response.status} - {response.read().decode('utf-8')}")
+
         return clone_urls
 
 
