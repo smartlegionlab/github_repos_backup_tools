@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tool <sup>v0.3.1</sup>
+# GitHub Repositories Backup Tool <sup>v0.4.0</sup>
 
 ---
 
@@ -26,15 +26,16 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-github_repos_backup_tools v0.3.1
+github_repos_backup_tools v0.4.0
 
-- The "git push" command instead of deleting the project folder and cloning it again.
+- Removed all dependencies, project is now self-contained and does not require any external libraries to be installed.
 
 ***
 
 ## Help:
 
-> ATTENTION! Before running the application, you must generate an ssh key for GitHub on your system and add it to your GitHub account.
+> ATTENTION! Before running the application, you must generate an ssh key 
+> for GitHub on your system and add it to your GitHub account.
 
 > You can use a ready-made tool: [github-ssh-key](https://github.com/smartlegionlab/github-ssh-key/) or:
 
@@ -55,19 +56,19 @@ The check should be successful.
 - [Download project in HOME dir](https://github.com/smartlegionlab/github_repos_backup_tools/archive/refs/heads/master.zip) or: `wget -P https://github.com/smartlegionlab/github_repos_backup_tools/archive/refs/heads/master.zip` 
 - Create a folder "github_repos_backup_tools" and unzip the archive with the project into it. For example: `unzip master.zip -d github_repos_backup_tools`.
 - Go to your project folder. Or: `cd github_repos_backup_tools`
-- `python -m venv venv`
-- `source venv/bin/activate`
-- `pip install -r requirements.txt`
-- Create file .env or `echo -e "GITHUB_API_TOKEN=TOKEN\nGITHUB_NAME=USERNAME" > .env`
-- Add keys and values to the file, where the value are your GitHub api token and GitHub username:
+- Create file `.config.ini`:
 
 > How to generate a token? [Follow the link and create Personal access tokens (classic)](https://github.com/settings/tokens/new). Press 'Generate new token'. Select "repo", select "gist", generate and copy the token.
 
-Exemple file`.env`:
-```text
-GITHUB_API_TOKEN=<YOUR TOKEN>
-GITHUB_NAME=<YOUR USERNAME>
+
+Exemple file`.config.ini`:
+```ini
+[github]
+token = your_github_token
+github_name = your_github_username
 ```
+
+### Use:
 
 - `python app.py`. Show main menu.
 - `python app.py -r` - Automatically clone GitHub repositories without creating an archive.

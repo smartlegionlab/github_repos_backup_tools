@@ -6,27 +6,29 @@
 # --------------------------------------------------------
 # https://github.com/smartlegionlab/
 # --------------------------------------------------------
-import argparse
 import os
 import sys
-
-from dotenv import load_dotenv
+import argparse
 
 from tools.app_manager import AppManager
+from tools.parsers import ConfigParser
 
 
 def main():
+    project_root = os.path.abspath(os.path.dirname(__file__))
+    config_file_path = os.path.join(project_root, '.config.ini')
     app_manager = AppManager()
     app_manager.show_head()
-    load_dotenv()
-    name = os.getenv("GITHUB_NAME")
-    token = os.getenv("GITHUB_API_TOKEN")
-    if not name or not token:
+    config_parser = ConfigParser(config_file_path)
+    github_token = config_parser.get_token()
+    github_name = config_parser.get_github_name()
+
+    if not github_name or not github_token:
         print('Please provide token and name')
         app_manager.show_footer()
         sys.exit(0)
-    app_manager.name = name
-    app_manager.token = token
+    app_manager.name = github_name
+    app_manager.token = github_token
     parser = argparse.ArgumentParser(description='GitHub Repositories Backup Tools')
     parser.add_argument('-r', action='store_true', help='Cloning repositories')
     parser.add_argument('-g', action='store_true', help='Cloning gists')
