@@ -8,6 +8,7 @@
 # --------------------------------------------------------
 import urllib.request
 import urllib.parse
+import urllib.error
 import json
 
 
@@ -29,18 +30,29 @@ class GitHubDataMaster:
         while True:
             url = f"{self._url}?page={page}&per_page={per_page}"
             req = urllib.request.Request(url, headers=self.headers)
-            with urllib.request.urlopen(req) as response:
-                if response.status == 200:
-                    data = json.loads(response.read().decode('utf-8'))
-                    if not data:
-                        break
+            try:
+                with urllib.request.urlopen(req) as response:
+                    if response.status == 200:
+                        data = json.loads(response.read().decode('utf-8'))
+                        if not data:
+                            break
 
-                    for repo in data:
-                        clone_urls.append(repo)
+                        for repo in data:
+                            clone_urls.append(repo)
 
-                    page += 1
-                else:
-                    raise Exception(f"Error: {response.status} - {response.read().decode('utf-8')}")
+                        page += 1
+                    else:
+                        raise Exception(f"Error: {response.status} - {response.read().decode('utf-8')}")
+            except urllib.error.HTTPError as e:
+                print(f"HTTP error occurred: {e.code} - {e.reason}")
+                print(e.read().decode('utf-8'))
+                break
+            except urllib.error.URLError as e:
+                print(f"URL error occurred: {e.reason}")
+                break
+            except Exception as e:
+                print(f"An unexpected error occurred: {str(e)}")
+                break
 
         return clone_urls
 
