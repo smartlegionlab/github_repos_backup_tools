@@ -61,7 +61,7 @@ The check should be successful.
 > How to generate a token? [Follow the link and create Personal access tokens (classic)](https://github.com/settings/tokens/new). Press 'Generate new token'. Select "repo", select "gist", generate and copy the token.
 
 
-Exemple file`.config.ini`:
+Example file`.config.ini`:
 ```ini
 [github]
 token = your_github_token
