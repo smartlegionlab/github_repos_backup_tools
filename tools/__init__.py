@@ -8,4 +8,4 @@
 # --------------------------------------------------------
 """An application for creating backup copies of repositories and GitHub (including private ones)."""
 __author__ = 'A.A. Suvorov'
-__version__ = '0.4.1'
+__version__ = '0.4.2'

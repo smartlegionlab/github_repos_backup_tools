@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tool <sup>v0.4.1</sup>
+# GitHub Repositories Backup Tool <sup>v0.4.2</sup>
 
 ---
 
@@ -26,7 +26,7 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-github_repos_backup_tools v0.4.1
+github_repos_backup_tools v0.4.2
 
 - Removed all dependencies, project is now self-contained and does not require any external libraries to be installed.
 
