@@ -9,6 +9,7 @@
 import os
 import sys
 import argparse
+from datetime import datetime, timedelta
 
 from tools.app_manager import AppManager
 from tools.parsers import ConfigParser
@@ -29,12 +30,17 @@ def main():
         sys.exit(0)
     app_manager.name = github_name
     app_manager.token = github_token
+
     parser = argparse.ArgumentParser(description='GitHub Repositories Backup Tools')
     parser.add_argument('-r', action='store_true', help='Cloning repositories')
     parser.add_argument('-g', action='store_true', help='Cloning gists')
     parser.add_argument('--archive', action='store_true', help='Create archive')
     parser.add_argument('--no-auto', action='store_true', help='Disabling automatic mode')
+    parser.add_argument('--shutdown',
+                        action='store_true', help='Shutting down the system after finishing work')
+
     args = parser.parse_args()
+
     if args.r and args.g:
         app_manager.clone_repositories_and_gists(archive_flag=args.archive, auto_mode=not args.no_auto)
     elif args.r:
@@ -44,6 +50,12 @@ def main():
     else:
         app_manager.main_menu()
     app_manager.show_footer()
+
+    if args.shutdown:
+        current_time = datetime.now()
+        shutdown_time = current_time + timedelta(minutes=1)
+
+        os.system(f'shutdown -h {shutdown_time.strftime("%H:%M")}')
 
 
 if __name__ == '__main__':
