@@ -13,13 +13,6 @@ The folder and archive with cloned repositories are stored in your home director
 
 ***
 
-
-## Images:
-
-![logo](https://github.com/smartlegionlab/github_repos_backup_tools/raw/master/data/images/github_repos_backup_tools.png)
-
-***
-
 Author and developer: ___A.A. Suvorov___
 
 ***
