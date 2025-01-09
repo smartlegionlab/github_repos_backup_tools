@@ -7,9 +7,9 @@
 # https://github.com/smartlegionlab/
 # --------------------------------------------------------
 import os
+import platform
 import sys
 import argparse
-from datetime import datetime, timedelta
 
 from tools.app_manager import AppManager
 from tools.parsers import ConfigParser
@@ -52,10 +52,10 @@ def main():
     app_manager.show_footer()
 
     if args.shutdown:
-        current_time = datetime.now()
-        shutdown_time = current_time + timedelta(minutes=1)
-
-        os.system(f'shutdown -h {shutdown_time.strftime("%H:%M")}')
+        if platform.system() == "Windows":
+            os.system('shutdown /s /t 60')
+        else:
+            os.system('shutdown -h +1')
 
 
 if __name__ == '__main__':
