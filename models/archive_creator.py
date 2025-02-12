@@ -1,7 +1,7 @@
 # --------------------------------------------------------
 # Licensed under the terms of the BSD 3-Clause License
 # (see LICENSE for details).
-# Copyright © 2024, A.A. Suvorov
+# Copyright © 2024-2025, A.A. Suvorov
 # All rights reserved.
 # --------------------------------------------------------
 # https://github.com/smartlegionlab/
@@ -12,22 +12,14 @@ import tarfile
 
 
 class ArchiveCreator:
-
-    def __init__(self, folder_path: str, archive_format: str = 'zip', output_path: str = None):
+    def __init__(self, folder_path: str, archive_format: str = 'zip'):
         self.folder_path = folder_path
-        self.archive_format = archive_format.lower()
-        self.output_path = output_path or self._default_output_path()
-        self._validate_inputs()
+        self.archive_format = archive_format
+        self.output_path = self._default_output_path()
 
     def _default_output_path(self) -> str:
         folder_name = os.path.basename(self.folder_path)
         return os.path.join(os.path.dirname(self.folder_path), f"{folder_name}.{self.archive_format}")
-
-    def _validate_inputs(self):
-        if not os.path.isdir(self.folder_path):
-            raise ValueError(f"The specified folder does not exist: {self.folder_path}")
-        if self.archive_format not in ['zip', 'tar', 'tar.gz', 'tgz']:
-            raise ValueError(f"Unsupported archive format: {self.archive_format}")
 
     def create_archive(self):
         if self.archive_format == 'zip':
@@ -41,7 +33,7 @@ class ArchiveCreator:
                 for file in files:
                     file_path = os.path.join(root, file)
                     zipf.write(file_path, os.path.relpath(file_path, self.folder_path))
-        print(f"ZIP archive created at: {self.output_path}")
+        print(f"\nZIP archive created at: {self.output_path}\n")
 
     def _create_tar(self):
         mode = 'w:gz' if self.archive_format in ['tar.gz', 'tgz'] else 'w'
@@ -50,4 +42,4 @@ class ArchiveCreator:
                 for file in files:
                     file_path = os.path.join(root, file)
                     tarf.add(file_path, arcname=os.path.relpath(file_path, self.folder_path))
-        print(f"Tar archive created at: {self.output_path}")
+        print(f"\nTar archive created at: {self.output_path}\n")

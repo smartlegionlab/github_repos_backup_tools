@@ -1,13 +1,12 @@
-# GitHub Repositories Backup Tool <sup>v0.4.2</sup>
+# GitHub Repositories Backup Tool <sup>v0.5.1</sup>
 
 ---
 
-> An application for creating backup copies of repositories and GitHub (including private ones).
+> An application for automatic cloning of GitHub repositories (including private ones).
 
-- Cloning repositories, including closed ones. (Automatic/Manual).
-- Cloning gists, including closed ones. (Automatic/Manual).
-- Creating an archive of the main folder with cloned repositories and gists (Automatic/Manual).
-- Launch in "Menu mode"/"Launch in console with additional parameters".
+- Cloning repositories, including private ones.
+- Cloning gist, including private ones.
+- Creating an archive of the main folder with cloned repositories and gist.
 
 The folder and archive with cloned repositories are stored in your home directory.
 
@@ -19,9 +18,10 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-github_repos_backup_tools v0.4.2
+github_repos_backup_tools v0.5.1
 
-- Removed all dependencies, project is now self-contained and does not require any external libraries to be installed.
+- Code refactoring
+- Removed unused functions and mechanisms
 
 ***
 
@@ -63,19 +63,12 @@ github_name = your_github_username
 
 ### Use:
 
-- `python app.py`. Show main menu.
-- `python app.py -r` - Automatically clone GitHub repositories without creating an archive.
-- `python app.py -r --no-auto` - Manually select GitHub repositories to clone without creating an archive.
-- `python app.py -r --archive` - Automatically clone GitHub repositories with the creation of an archive.
-- `python app.py -r --archive --no-auto` - Manually select GitHub repositories to clone with archive creation.
-- `python app.py -g` - Automatically clone GitHub gists without creating an archive.
-- `python app.py -g --no-auto` - Manually select GitHub gists to clone without creating an archive.
-- `python app.py -g --archive` - Automatically clone GitHub gists with the creation of an archive.
-- `python app.py -g --archive --no-auto` - Manually select GitHub gists to clone with archive creation.
-- `python app.py -r -g` - Automatically clone GitHub repositories and gists without creating an archive.
-- `python app.py -r -g --no-auto` - Manually select GitHub repositories and gists to clone without creating an archive.
-- `python app.py -r -g --archive` - Automatically clone GitHub repositories and gists, and create archive.
-- `python app.py -r -g --archive --no-auto` - Manually select GitHub repositories and gists to clone with archive creation.
+`python main.py` or `python main.py -r -g` - Perform automatic cloning of both repositories and gists.
+
+- `-r` - Clone GitHub repositories.
+- `-g` - Clone GitHub gists.
+- `--archive` - Create archive.
+- `--shutdown` - Turn off the device after completing all actions.
 
 ***
 
@@ -98,6 +91,6 @@ github_name = your_github_username
     --------------------------------------------------------
     Licensed under the terms of the BSD 3-Clause License
     (see LICENSE for details).
-    Copyright © 2024, A.A. Suvorov
+    Copyright © 2024-2025, A.A. Suvorov
     All rights reserved.
     --------------------------------------------------------
