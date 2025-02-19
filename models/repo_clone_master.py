@@ -12,8 +12,9 @@ from views.main_view import MainView
 
 
 class RepoCloneMaster:
-    def __init__(self, name: str):
+    def __init__(self, name: str, token: str):
         self.name = name
+        self.token = token
         self.view = MainView()
         self.clone_path = self._create_clone_directory()
 
@@ -28,19 +29,31 @@ class RepoCloneMaster:
         os.makedirs(path, exist_ok=True)
 
         for index, item in enumerate(items, start=1):
-            name, url = self._get_item_info(item)
-            item_path = os.path.join(path, name)
+            if 'ssh_url' in item:
+                name, url = self._get_repo_info(item)
+                item_path = os.path.join(path, name)
 
-            if os.path.exists(item_path):
-                self.view.show_clone_progress(index, len(items), f"Updating {name}")
-                os.system(f'git -C {item_path} pull origin master')
+                if os.path.exists(item_path):
+                    self.view.show_clone_progress(index, len(items), f"Updating {name}")
+                    os.system(f'git -C {item_path} pull origin master')
+                else:
+                    self.view.show_clone_progress(index, len(items), f"Cloning {name}")
+                    os.system(f'git clone https://{self.token}@github.com/{url} {item_path}')
             else:
-                self.view.show_clone_progress(index, len(items), f"Cloning {name}")
-                os.system(f'git clone {url} {item_path}')
+                name, url = self._get_gist_info(item)
+                item_path = os.path.join(path, name)
+
+                if os.path.exists(item_path):
+                    self.view.show_clone_progress(index, len(items), f"Updating {name}")
+                    os.system(f'git -C {item_path} pull origin master')
+                else:
+                    self.view.show_clone_progress(index, len(items), f"Cloning {name}")
+                    os.system(f'git clone https://{self.token}@gist.github.com/{url} {item_path}')
 
     @staticmethod
-    def _get_item_info(item: Dict) -> tuple:
-        if 'ssh_url' in item:  # Repository
-            return item['name'], item['ssh_url']
-        else:  # Gist
-            return item['id'], f'https://gist.github.com/{item["id"]}.git'
+    def _get_repo_info(item: Dict) -> tuple:
+        return item['name'], item['full_name']
+
+    @staticmethod
+    def _get_gist_info(item: Dict) -> tuple:
+        return item['id'], item['id']

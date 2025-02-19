@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tool <sup>v0.5.1</sup>
+# GitHub Repositories Backup Tool <sup>v0.6.0</sup>
 
 ---
 
@@ -18,40 +18,26 @@ Author and developer: ___A.A. Suvorov___
 
 ## What's new:
 
-github_repos_backup_tools v0.5.1
-
-- Code refactoring
-- Removed unused functions and mechanisms
+- Cloning without pre-generating and adding an ssh key to GitHub.
+- Cloning/Updating has become easier and faster.
 
 ***
 
 ## Help:
 
-> ATTENTION! Before running the application, you must generate an ssh key 
-> for GitHub on your system and add it to your GitHub account.
-
-> You can use a ready-made tool: [github-ssh-key](https://github.com/smartlegionlab/github-ssh-key/) or:
-
-- `ssh-keygen -t ed25519 -C "email@gmail.com"` Replace with your email.
-- `eval "$(ssh-agent -s)"`
-- `ssh-add ~/.ssh/id_ed25519`
-
-Copy the key from the `/home/name/.ssh/id_ed25519.pub` file and add it to your GitHub account.
-- View and copy the key: `cat /home/name/.ssh/id_ed25519.pub`
-- [Link to adding a key to GitHub](https://github.com/settings/keys)
-
-- `ssh-keyscan github.com >> ~/.ssh/known_host`
-- `ssh -T git@github.com`
-
-The check should be successful.
-
 - `cd ~`
-- [Download project in HOME dir](https://github.com/smartlegionlab/github_repos_backup_tools/archive/refs/heads/master.zip) or: `wget -P https://github.com/smartlegionlab/github_repos_backup_tools/archive/refs/heads/master.zip` 
-- Create a folder "github_repos_backup_tools" and unzip the archive with the project into it. For example: `unzip master.zip -d github_repos_backup_tools`.
-- Go to your project folder. Or: `cd github_repos_backup_tools`
+- Clone or download project
+- `cd github_repos_backup_tools`
 - Create file `.config.ini`:
 
-> How to generate a token? [Follow the link and create Personal access tokens (classic)](https://github.com/settings/tokens/new). Press 'Generate new token'. Select "repo", select "gist", generate and copy the token.
+### How to generate a token? 
+
+- [Follow the link and create Personal access tokens (classic)](https://github.com/settings/tokens/new)
+- Press 'Generate new token'. 
+- Select "repo"
+- Select "gist"
+- Generate the token.
+- Copy the token.
 
 
 Example file`.config.ini`:

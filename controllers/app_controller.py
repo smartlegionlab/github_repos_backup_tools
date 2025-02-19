@@ -23,7 +23,7 @@ class AppController:
     def clone_repositories(self, archive: bool):
         data_master = ReposDataMaster(self.name, self.token)
         items = data_master.get_data()
-        clone_master = RepoCloneMaster(self.name)
+        clone_master = RepoCloneMaster(self.name, self.token)
         clone_master.clone(items, 'repositories')
         if archive:
             self._create_archive()
@@ -31,7 +31,7 @@ class AppController:
     def clone_gists(self, archive: bool):
         data_master = GistsDataMaster(self.name, self.token)
         items = data_master.get_data()
-        clone_master = RepoCloneMaster(self.name)
+        clone_master = RepoCloneMaster(self.name, self.token)
         clone_master.clone(items, 'gists')
         if archive:
             self._create_archive()
