@@ -106,7 +106,8 @@ class AppManager:
 
     def start(self):
         self.printer.show_head(text=self.config.name)
-        print('Getting a token from a .config.ini file...')
+        self.printer.print_center()
+        print('Getting a token from a .config.ini file:\n')
         token = self.config_parser.get_token()
 
         if not token:
@@ -117,12 +118,16 @@ class AppManager:
 
         self.github_data_master.token = token
 
+        self.printer.print_center()
+        print(f'Checking the token for validity: \n')
         is_token_valid = self.github_data_master.is_token_valid()
-        print(f'Token is valid: {self.get_yes_no(is_token_valid)}')
+
+        if is_token_valid:
+            print(f'✅ Token is valid: {self.get_yes_no(is_token_valid)}')
 
         self.printer.print_center()
 
-        print('Getting user login...')
+        print('Getting user login:\n')
         self.github_data_master.fetch_user_data()
         login = self.github_data_master.login
 
@@ -175,7 +180,8 @@ class AppManager:
         print()
         os.makedirs(target_dir, exist_ok=True)
         print(f'Target directory: {target_dir}')
-        print(f'Getting {item_type}...')
+        self.printer.print_center()
+        print(f'Getting {item_type}:\n')
 
         fetch_method()
         items = getattr(self.github_data_master, item_type)
@@ -196,7 +202,7 @@ class AppManager:
             if os.path.exists(item_path):
                 success = self._git_pull(item_path)
                 if not success:
-                    print(f"⚠️ Pull failed. Removing and recloning: \n{item_path}")
+                    print(f"⚠️ Pull failed. Removing and re-cloning: \n{item_path}")
                     shutil.rmtree(item_path)
                     success = self._git_clone(url, item_path)
             else:
@@ -250,6 +256,7 @@ class AppManager:
             self.printer.print_framed("⚠️ Clone path not found")
 
     def stop(self, shutdown=False):
+        self.printer.print_center()
         self.printer.show_footer(url=self.config.url, copyright_=self.config.info)
         if shutdown:
             self.shutdown()
