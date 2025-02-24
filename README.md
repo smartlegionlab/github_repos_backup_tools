@@ -144,7 +144,7 @@ Copy the key from the `/home/name/.ssh/id_ed25519.pub` file and add it to your G
 
 The check should be successful.
 
-`python main.py` or `python main.py -r -g` - Perform automatic cloning of both repositories and gists.
+`python app.py` or `python app.py -r -g` - Perform automatic cloning of both repositories and gists.
 
 - `-r` - Clone GitHub repositories.
 - `-g` - Clone GitHub gists.
