@@ -6,11 +6,24 @@
 # --------------------------------------------------------
 # https://github.com/smartlegionlab/
 # --------------------------------------------------------
-from utils.app_manager import AppManager
+from utils.managers import AppManager
+from utils.config import Config
+from utils.github_tools import GitHubDataMaster
+from utils.parsers import ConfigParser
+from utils.printers import SmartPrinter
 
 
 def main():
-    app = AppManager()
+    config = Config()
+    printer = SmartPrinter()
+    config_parser = ConfigParser()
+    github_data_master = GitHubDataMaster()
+    app = AppManager(
+        config=config,
+        printer=printer,
+        config_parser=config_parser,
+        github_data_master=github_data_master
+    )
     app.run()
 
 
