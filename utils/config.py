@@ -1,8 +1,15 @@
 # --------------------------------------------------------
 # Licensed under the terms of the BSD 3-Clause License
 # (see LICENSE for details).
-# Copyright © 2024-2025, A.A. Suvorov
+# Copyright © 2018-2025, A.A. Suvorov
 # All rights reserved.
 # --------------------------------------------------------
 # https://github.com/smartlegionlab/
 # --------------------------------------------------------
+
+
+class Config:
+    name = 'Github Repositories Backup Tools'
+    url = 'https://github.com/smartlegionlab/'
+    info = 'Copyright © 2018-2025, A.A. Suvorov'
+    help_url = 'https://github.com/smartlegionlab/github_repos_backup_tools/'
