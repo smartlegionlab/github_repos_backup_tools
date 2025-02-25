@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tools <sup>v0.7.3</sup>
+# GitHub Repositories Backup Tools <sup>v0.8.0</sup>
 
 ---
 
@@ -13,10 +13,22 @@ The folder and archive with cloned repositories are stored in your home director
 
 ***
 
+![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/github_repos_backup_tools)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/github_repos_backup_tools)](https://github.com/smartlegionlab/github_repos_backup_tools/)
+[![GitHub](https://img.shields.io/github/license/smartlegionlab/github_repos_backup_tools)](https://github.com/smartlegionlab/github_repos_backup_tools/blob/master/LICENSE)
+
+***
+
 Author and developer: ___A.A. Suvorov___
 
 ***
 
+## Supported:
+
+- Linux: (All)
+- Termux (Android)
+
+***
 > ATTENTION! Recently, problems with cloning/updating repositories have been noticed,
 > so it was decided to release a new version of the application to solve the existing problems.
 
@@ -28,40 +40,41 @@ Author and developer: ___A.A. Suvorov___
 
 ### **What's New:**
 
-GitHub Repositories Backup Tools <sup>v0.7.3</sup>
+GitHub Repositories Backup Tools <sup>v0.8.0</sup>
 
-- Added retry logic to all methods fetching data from GitHub API
-- Implemented a max retries limit with a delay between attempts
-- Improved error handling and logging for failed requests
-- Ensured requests are retried until a 200 status is received or max retries are reached
+- Progress bar
+- Toggle between verbose output and progress bar
+- Bugs fixed
+- Improved user interface
 
 ***
+
+**Example output when using the `--verbose` flag:**
+
+`python app -r -g --verbose`
 
 ```
 ************************************************************************************************************************
 ------------------------------------------- Github Repositories Backup Tools -------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
-Getting a token from a .config.ini file:
 
-✅ Token successfully received!
-------------------------------------------------------------------------------------------------------------------------
-Checking the token for validity: 
+Getting a token from a .config.ini file: ✅
 
-✅ Token is valid: ✅
-------------------------------------------------------------------------------------------------------------------------
+Checking the token for validity:
+Token is valid: ✅
+
 Getting user login:
+✅ Login: login
 
-✅ Login: Login
-------------------------------------------------------------------------------------------------------------------------
 Parsing arguments:
 
 Clone repositories: ✅
 Clone gists: ✅
 Make archive: ⚠
 Shutdown: ⚠
-------------------------------------------------------------------------------------------------------------------------
-Forming a path to the directory:
+Verbose: ✅
 
+Forming a path to the directory:
 ✅ Path: /home/user/login_github_backup
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -168,6 +181,50 @@ Retrying failed gists: 1 remaining
 ************************************************************************************************************************
 ```
 
+**Example output without using the `--verbose` flag:**
+
+`python app.py -r -g`
+
+```
+************************************************************************************************************************
+------------------------------------------- Github Repositories Backup Tools -------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+
+Getting a token from a .config.ini file: ✅
+
+Checking the token for validity:
+Token is valid: ✅
+
+Getting user login:
+✅ Login: login
+
+Parsing arguments:
+
+Clone repositories: ✅
+Clone gists: ✅
+Make archive: ⚠
+Shutdown: ⚠
+Verbose: ⚠
+
+Forming a path to the directory:
+✅ Path: /home/user/login_github_backup
+
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------ Cloning repositories:  ------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+
+Target directory: /home/user/login_github_backup/repositories
+------------------------------------------------------------------------------------------------------------------------
+Getting repositories:
+
+-------------------------
+✅ Found 248 repositories.
+-------------------------
+
+[################################################--] 97.98% | 243/248 | Failed: 9 | Cloning: repo243
+
+```
+
 ## Help:
 
 - `cd ~`
@@ -210,11 +267,12 @@ Copy the key from the `/home/name/.ssh/id_ed25519.pub` file and add it to your G
 
 The check should be successful.
 
-`python app.py` or `python app.py -r -g` - Perform automatic cloning of both repositories and gists.
+`python app.py -r -g` - Perform automatic cloning of both repositories and gists.
 
 - `-r` - Clone GitHub repositories.
 - `-g` - Clone GitHub gists.
 - `--archive` - Create archive.
+- `--verbose` - Enable verbose output.
 - `--shutdown` - Turn off the device after completing all actions.
 
 ***
