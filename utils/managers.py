@@ -10,10 +10,12 @@ import os
 import shutil
 import subprocess
 import argparse
+import sys
 from typing import Dict
 import platform
 
 from utils.archive_creator import ArchiveCreator
+from utils.progress_bar import ProgressBar
 
 
 class AppManager:
@@ -22,6 +24,16 @@ class AppManager:
         self.printer = printer
         self.config_parser = config_parser
         self.github_data_master = github_data_master
+        self.shutdown_flag = False
+        self.verbose = False
+
+    def graceful_shutdown(self):
+        if self.shutdown_flag:
+            return
+        self.shutdown_flag = True
+        print("\n🛑 Shutting down gracefully...")
+        self.stop()
+        sys.exit(0)
 
     @staticmethod
     def _parse_arguments():
@@ -30,6 +42,7 @@ class AppManager:
         parser.add_argument("-g", action="store_true", help="Clone gists")
         parser.add_argument("--archive", action="store_true", help="Create archive")
         parser.add_argument("--shutdown", action="store_true", help="Shutdown after completion")
+        parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
         return parser.parse_args()
 
     @staticmethod
@@ -56,8 +69,7 @@ class AppManager:
     def create_item_path(target_dir: str, item_name: str) -> str:
         return os.path.join(target_dir, item_name)
 
-    @staticmethod
-    def _git_clone(url: str, item_path: str) -> bool:
+    def _git_clone(self, url: str, item_path: str) -> bool:
         try:
             result = subprocess.run(
                 ['git', 'clone', url, item_path],
@@ -67,21 +79,24 @@ class AppManager:
                 timeout=20
             )
             if result.returncode == 0:
-                print(f"✅ Repository cloned successfully: \n{item_path}")
+                if self.verbose:
+                    print(f"✅ Repository cloned successfully: \n{item_path}")
                 return True
             else:
-                print(f"⚠️ Failed to clone repository: \n{item_path}")
-                print(result.stderr)
+                if self.verbose:
+                    print(f"⚠️ Failed to clone repository: \n{item_path}")
+                    print(result.stderr)
                 return False
         except subprocess.TimeoutExpired:
-            print(f"⚠️ Clone operation timed out: \n{item_path}")
+            if self.verbose:
+                print(f"⚠️ Clone operation timed out: \n{item_path}")
             return False
         except Exception as e:
-            print(f"⚠️ An unexpected error occurred while cloning {item_path}: {str(e)}")
+            if self.verbose:
+                print(f"⚠️ An unexpected error occurred while cloning {item_path}: {str(e)}")
             return False
 
-    @staticmethod
-    def _git_pull(item_path: str) -> bool:
+    def _git_pull(self, item_path: str) -> bool:
         try:
             result = subprocess.run(
                 ['git', '-C', item_path, 'pull', 'origin', 'master'],
@@ -91,53 +106,51 @@ class AppManager:
                 timeout=20
             )
             if result.returncode == 0:
-                print(f"✅ Repository updated successfully: \n{item_path}")
+                if self.verbose:
+                    print(f"✅ Repository updated successfully: \n{item_path}")
                 return True
             else:
-                print(f"⚠️ Failed to update repository: \n{item_path}")
-                print(result.stderr)
+                if self.verbose:
+                    print(f"⚠️ Failed to update repository: \n{item_path}")
+                    print(result.stderr)
                 return False
         except subprocess.TimeoutExpired:
-            print(f"⚠️ Pull operation timed out: \n{item_path}")
+            if self.verbose:
+                print(f"⚠️ Pull operation timed out: \n{item_path}")
             return False
         except Exception as e:
-            print(f"⚠️ An unexpected error occurred while updating {item_path}: {str(e)}")
+            if self.verbose:
+                print(f"⚠️ An unexpected error occurred while updating {item_path}: {str(e)}")
             return False
 
     def start(self):
         self.printer.show_head(text=self.config.name)
         self.printer.print_center()
-        print('Getting a token from a .config.ini file:\n')
+        print()
         token = self.config_parser.get_token()
-
+        print(f'Getting a token from a .config.ini file: {self.get_yes_no(token)}\n')
         if not token:
             print("⚠️ ERROR! Please provide GitHub token in the config file.")
             return
-        else:
-            print('✅ Token successfully received!')
 
         self.github_data_master.token = token
-
-        self.printer.print_center()
-        print(f'Checking the token for validity: \n')
+        print(f'Checking the token for validity:')
         is_token_valid = self.github_data_master.is_token_valid()
+        print(f'Token is valid: {self.get_yes_no(is_token_valid)}\n')
 
-        if is_token_valid:
-            print(f'✅ Token is valid: {self.get_yes_no(is_token_valid)}')
+        if not is_token_valid:
+            print('⚠️ Error! Token is not valid.')
+            return
 
-        self.printer.print_center()
-
-        print('Getting user login:\n')
+        print('Getting user login:')
         self.github_data_master.fetch_user_data()
         login = self.github_data_master.login
 
-        if login:
-            print(f'✅ Login: {login}')
-        else:
+        if not login:
             print('⚠️ Login failed.')
             return
 
-        self.printer.print_center()
+        print(f'✅ Login: {login}\n')
 
         print('Parsing arguments:\n')
         args = self._parse_arguments()
@@ -146,17 +159,17 @@ class AppManager:
         clone_gists = args.g
         make_archive = args.archive
         exec_shutdown = args.shutdown
+        self.verbose = args.verbose
 
         print(f'Clone repositories: {self.get_yes_no(clone_repos)}')
         print(f'Clone gists: {self.get_yes_no(clone_gists)}')
         print(f'Make archive: {self.get_yes_no(make_archive)}')
         print(f'Shutdown: {self.get_yes_no(exec_shutdown)}')
+        print(f'Verbose: {self.get_yes_no(self.verbose)}\n')
 
-        self.printer.print_center()
-        print('Forming a path to the directory:\n')
-
+        print('Forming a path to the directory:')
         path = self._create_clone_directory(login)
-        print(f'✅ Path: {path}')
+        print(f'✅ Path: {path}\n')
 
         if clone_repos:
             repos_target_dir = os.path.join(path, "repositories")
@@ -179,77 +192,92 @@ class AppManager:
         self.printer.print_center()
         print()
         os.makedirs(target_dir, exist_ok=True)
-        print(f'Target directory: {target_dir}')
-        self.printer.print_center()
+        print(f'Target directory: {target_dir}\n')
         print(f'Getting {item_type}:\n')
-
         fetch_method()
         items = getattr(self.github_data_master, item_type)
         count = len(items)
 
         if not count:
-            self.printer.print_framed(f'⚠️ No {item_type} found.')
+            self.printer.print_framed(f'⚠️ No {item_type} found.\n')
             return {}
         else:
-            self.printer.print_framed(f'✅ Found {count} {item_type}.')
+            self.printer.print_framed(f'✅ Found {count} {item_type}')
         print()
         failed_dict = {}
         failed_count = 0
-
+        progress_bar = ProgressBar()
         for index, (name, url) in enumerate(items.items(), start=1):
-            self.printer.print_framed(f'{index}/{count}/{failed_count}: Cloning: {name}')
+            if not self.verbose:
+                progress_bar.update(index, count, failed_count, f"Cloning: {name}")
+            else:
+                self.printer.print_framed(f'{index}/{count}/{failed_count}: Cloning: {name}')
+
             item_path = self.create_item_path(target_dir, name)
 
             if os.path.exists(item_path):
                 success = self._git_pull(item_path)
                 if not success:
-                    print(f"⚠️ Pull failed. Removing and re-cloning: \n{item_path}")
+                    if self.verbose:
+                        print(f"⚠️ Pull failed. Removing and re-cloning: \n{item_path}")
                     shutil.rmtree(item_path)
                     success = self._git_clone(url, item_path)
             else:
                 success = self._git_clone(url, item_path)
 
             if not success:
-                print(f"⚠️ Removing incomplete {item_type}: \n{item_path}")
+                if self.verbose:
+                    print(f"⚠️ Removing incomplete {item_type}: \n{item_path}")
                 if os.path.exists(item_path):
                     shutil.rmtree(item_path)
                 failed_dict[name] = url
                 failed_count += 1
 
         if not failed_dict:
+            if not self.verbose:
+                progress_bar.finish(message=f'Cloning/updating {item_type} completed successfully!!!')
             return failed_dict
 
         while failed_dict:
-            self.printer.print_center()
-            print()
-            self.printer.print_framed(f"Retrying failed {item_type}: {len(failed_dict)} remaining")
-            print()
-            self.printer.print_center()
+            if self.verbose:
+                self.printer.print_center()
+                print()
+                self.printer.print_framed(f"Retrying failed {item_type}: {len(failed_dict)} remaining")
+                print()
+                self.printer.print_center()
 
             current_failed = failed_dict.copy()
             failed_dict.clear()
 
             for index, (name, url) in enumerate(current_failed.items(), start=1):
-                self.printer.print_framed(f'{index}/{len(current_failed)}/{failed_count}: Retrying: {name}')
+                if not self.verbose:
+                    progress_bar.update(index, len(current_failed), failed_count, f"Retrying: {name}")
+                else:
+                    self.printer.print_framed(f'{index}/{len(current_failed)}/{failed_count}: Retrying: {name}')
+
                 item_path = self.create_item_path(target_dir, name)
 
                 if os.path.exists(item_path):
                     success = self._git_pull(item_path)
                     if not success:
-                        print(f"⚠️ Pull failed. Removing and re-cloning: \n{item_path}")
+                        if self.verbose:
+                            print(f"⚠️ Pull failed. Removing and re-cloning: \n{item_path}")
                         shutil.rmtree(item_path)
                         success = self._git_clone(url, item_path)
                 else:
                     success = self._git_clone(url, item_path)
 
                 if not success:
-                    print(f"⚠️ Removing incomplete {item_type}: \n{item_path}")
+                    if self.verbose:
+                        print(f"⚠️ Removing incomplete {item_type}: \n{item_path}")
                     if os.path.exists(item_path):
                         shutil.rmtree(item_path)
                     failed_dict[name] = url
                 else:
                     failed_count -= 1
 
+        if not self.verbose:
+            progress_bar.finish(message=f'Cloning/updating {item_type} completed successfully!!!')
         return failed_dict
 
     def _create_archive(self, login):
@@ -268,5 +296,15 @@ class AppManager:
             self.shutdown()
 
     def run(self):
-        self.start()
-        self.stop()
+        try:
+            self.start()
+            self.stop()
+        except KeyboardInterrupt:
+            print("\n🛑 Detected Ctrl+C. Shutting down...")
+            self.graceful_shutdown()
+        except Exception as e:
+            print(f"⚠️ An unexpected error occurred: {e}")
+            self.graceful_shutdown()
+        finally:
+            print("\n✅ Application has been terminated. You can now close the console.")
+            sys.exit(0)
