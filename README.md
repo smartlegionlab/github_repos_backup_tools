@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tools <sup>v0.7.1</sup>
+# GitHub Repositories Backup Tools <sup>v0.7.2</sup>
 
 ---
 
@@ -17,9 +17,18 @@ Author and developer: ___A.A. Suvorov___
 
 ***
 
+> ATTENTION! Recently, problems with cloning/updating repositories have been noticed,
+> so it was decided to release a new version of the application to solve the existing problems.
+
+- 5 retries will be used to obtain data.
+- When cloning/updating repositories, a retries mechanism will be used, which
+  will ultimately allow you to get the correct updated version of the repository, either by cloning,
+  or by updating.
+- Cloning/updating will be retried after a certain amount of time until it is successful.
+
 ### **What's New:**
 
-GitHub Repositories Backup Tools <sup>v0.7.1</sup>
+GitHub Repositories Backup Tools <sup>v0.7.2</sup>
 
 - Added retry logic to all methods fetching data from GitHub API
 - Implemented a max retries limit with a delay between attempts
