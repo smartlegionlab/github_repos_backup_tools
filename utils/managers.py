@@ -50,7 +50,7 @@ class AppManager:
 
     @staticmethod
     def get_yes_no(arg):
-        return 'Yes' if arg else 'No'
+        return '✅' if arg else '⚠️'
 
     @staticmethod
     def create_item_path(target_dir: str, item_name: str) -> str:
@@ -147,10 +147,10 @@ class AppManager:
         make_archive = args.archive
         exec_shutdown = args.shutdown
 
-        print(f'✅ Clone repositories: {self.get_yes_no(clone_repos)}')
-        print(f'✅ Clone gists: {self.get_yes_no(clone_gists)}')
-        print(f'✅ Make archive: {self.get_yes_no(make_archive)}')
-        print(f'✅ Shutdown: {self.get_yes_no(exec_shutdown)}')
+        print(f'Clone repositories: {self.get_yes_no(clone_repos)}')
+        print(f'Clone gists: {self.get_yes_no(clone_gists)}')
+        print(f'Make archive: {self.get_yes_no(make_archive)}')
+        print(f'Shutdown: {self.get_yes_no(exec_shutdown)}')
 
         self.printer.print_center()
         print('Forming a path to the directory:\n')
@@ -188,10 +188,10 @@ class AppManager:
         count = len(items)
 
         if not count:
-            print(f'⚠️ No {item_type} found.')
+            self.printer.print_framed(f'⚠️ No {item_type} found.')
             return {}
         else:
-            print(f'✅ Found {count} {item_type}.')
+            self.printer.print_framed(f'✅ Found {count} {item_type}.')
 
         status_dict = {}
 
@@ -209,24 +209,29 @@ class AppManager:
                 success = self._git_clone(url, item_path)
 
             if not success and os.path.exists(item_path):
-                print(f"Removing incomplete {item_type}: \n{item_path}")
+                print(f"⚠️ Removing incomplete {item_type}: \n{item_path}")
                 shutil.rmtree(item_path)
 
             status_dict[name] = success
 
-        while True:
-            failed_items = {name: url for name, url in items.items() if not status_dict.get(name, False)}
+        failed_items = [(name, url) for name, url in items.items() if not status_dict.get(name, False)]
+        total_failed = len(failed_items)
 
-            if not failed_items:
-                break
+        if not failed_items:
+            return status_dict
+
+        while failed_items:
             self.printer.print_center()
             print()
             self.printer.print_framed(f"Retrying failed {item_type}: {len(failed_items)} remaining")
             print()
             self.printer.print_center()
 
-            for name, url in failed_items.items():
-                self.printer.print_framed(f'Retrying: {name}')
+            current_failed = failed_items.copy()
+            failed_items.clear()
+
+            for index, (name, url) in enumerate(current_failed, start=1):
+                self.printer.print_framed(f'{index}/{total_failed}: Retrying: {name}')
                 item_path = self.create_item_path(target_dir, name)
 
                 if os.path.exists(item_path):
@@ -238,9 +243,11 @@ class AppManager:
                 else:
                     success = self._git_clone(url, item_path)
 
-                if not success and os.path.exists(item_path):
-                    print(f"Removing incomplete {item_type}: \n{item_path}")
-                    shutil.rmtree(item_path)
+                if not success:
+                    print(f"⚠️ Removing incomplete {item_type}: \n{item_path}")
+                    if os.path.exists(item_path):
+                        shutil.rmtree(item_path)
+                    failed_items.append((name, url))
 
                 status_dict[name] = success
 

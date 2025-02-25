@@ -55,7 +55,7 @@ class GitHubDataMaster:
             retries += 1
             if retries < max_retries:
                 print()
-                print(f"⚠️ Retrying... ({retries}/{max_retries})")
+                print(f"✅ Retrying... ({retries}/{max_retries})")
                 print()
                 time.sleep(2)
 
@@ -104,7 +104,7 @@ class GitHubDataMaster:
                 retries += 1
                 if retries < max_retries:
                     print()
-                    print(f"⚠️ Retrying... ({retries}/{max_retries})")
+                    print(f"✅ Retrying... ({retries}/{max_retries})")
                     print()
                     time.sleep(2)
 
@@ -133,7 +133,7 @@ class GitHubDataMaster:
             retries += 1
             if retries < max_retries:
                 print()
-                print(f"⚠️ Retrying... ({retries}/{max_retries})")
+                print(f"✅ Retrying... ({retries}/{max_retries})")
                 print()
                 time.sleep(2)
 
