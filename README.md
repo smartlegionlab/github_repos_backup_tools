@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tools <sup>v0.7.2</sup>
+# GitHub Repositories Backup Tools <sup>v0.7.3</sup>
 
 ---
 
@@ -28,7 +28,7 @@ Author and developer: ___A.A. Suvorov___
 
 ### **What's New:**
 
-GitHub Repositories Backup Tools <sup>v0.7.2</sup>
+GitHub Repositories Backup Tools <sup>v0.7.3</sup>
 
 - Added retry logic to all methods fetching data from GitHub API
 - Implemented a max retries limit with a delay between attempts
@@ -38,45 +38,134 @@ GitHub Repositories Backup Tools <sup>v0.7.2</sup>
 ***
 
 ```
-************************************************************************************************************************************************************
-------------------------------------------------------------- Github Repositories Backup Tools -------------------------------------------------------------
-Getting a token from a .config.ini file...
+************************************************************************************************************************
+------------------------------------------- Github Repositories Backup Tools -------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+Getting a token from a .config.ini file:
+
 ✅ Token successfully received!
-Token is valid: Yes
-------------------------------------------------------------------------------------------------------------------------------------------------------------
-Getting user login...
-✅ Login: john_doe
-------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+Checking the token for validity: 
+
+✅ Token is valid: ✅
+------------------------------------------------------------------------------------------------------------------------
+Getting user login:
+
+✅ Login: Login
+------------------------------------------------------------------------------------------------------------------------
 Parsing arguments:
 
-✅ Clone repositories: Yes
-✅ Clone gists: Yes
-✅ Make archive: Yes
-✅ Shutdown: No
-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Clone repositories: ✅
+Clone gists: ✅
+Make archive: ⚠
+Shutdown: ⚠
+------------------------------------------------------------------------------------------------------------------------
 Forming a path to the directory:
-Path: /home/john_doe/john_doe_github_backup
 
------------------------------------------------------------------- Cloning repositories:  ------------------------------------------------------------------
-Target directory: /home/john_doe/john_doe_github_backup/repositories
-Getting repositories...
-Found 10 repositories.
+✅ Path: /home/user/login_github_backup
 
------------------------------------------------------------------- Cloning repositories:  ------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------ Cloning repositories:  ------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 
---------------------------------------
-1/10: Cloning: repo1
---------------------------------------
-✅ Repository cloned successfully: /home/john_doe/john_doe_github_backup/repositories/repo1
---------------------------------------
-2/10: Cloning: repo2
+Target directory: /home/user/login_github_backup/repositories
+------------------------------------------------------------------------------------------------------------------------
+Getting repositories:
+
+-------------------------
+✅ Found 3 repositories.
+-------------------------
+
+---------------------------------------
+1/3/0: Cloning: login/repo1
+---------------------------------------
+✅ Repository updated successfully: 
+/home/user/login_github_backup/repositories/login/repo1
+------------------------------------------------
+2/3/0: Cloning: login/repo2
+------------------------------------------------
 ⚠ Pull operation timed out: 
-/home/john_doe/john_doe_github_backup/repositories/repo2
-⚠ Pull failed. Removing and recloning: 
-/home/john_doe/john_doe_github_backup/repositories/ repo2
+/home/user/login_github_backup/repositories/login/repo2
+⚠ Pull failed. Removing and re-cloning: 
+/home/user/login_github_backup/repositories/login/repo2
+⚠ Clone operation timed out: 
+/home/user/login_github_backup/repositories/login/repo2
+⚠ Removing incomplete repositories: 
+/home/user/login_github_backup/repositories/login/repo2
+---------------------------------------------------------------
+3/3/1: Cloning: login/repo3
+---------------------------------------------------------------
+⚠ Pull operation timed out: 
+/home/user/login_github_backup/repositories/login/repo3
+⚠ Pull failed. Removing and re-cloning: 
+/home/user/login_github_backup/repositories/login/repo3
 ✅ Repository cloned successfully: 
-/home/john_doe/john_doe_github_backup/repositories/repo2
---------------------------------------
+/home/user/login_github_backup/repositories/login/repo3
+------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------
+Retrying failed repositories: 1 remaining
+-----------------------------------------
+
+------------------------------------------------------------
+1/1/1: Retrying: login/repo2
+------------------------------------------------------------
+✅ Repository cloned successfully: 
+/home/user/login_github_backup/repositories/login/repo2
+
+------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------- Cloning gists:  ----------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+
+Target directory: /home/user/login_github_backup/gists
+------------------------------------------------------------------------------------------------------------------------
+Getting gists:
+
+------------------
+✅ Found 3 gists.
+------------------
+
+--------------------------------------------------
+1/3/0: Cloning: name1
+--------------------------------------------------
+✅ Repository updated successfully: 
+/home/user/login_github_backup/gists/name1
+--------------------------------------------------
+2/3/0: Cloning: name2
+--------------------------------------------------
+⚠ Pull operation timed out: 
+/home/user/login_github_backup/gists/name2
+⚠ Pull failed. Removing and re-cloning: 
+/home/user/login_github_backup/gists/name2
+⚠ Clone operation timed out: 
+/home/user/login_github_backup/gists/name2
+⚠ Removing incomplete gists: 
+/home/user/login_github_backup/gists/name2
+--------------------------------------------------
+3/3/1: Cloning: name3
+--------------------------------------------------
+⚠ Pull operation timed out: 
+/home/user/login_github_backup/gists/name3
+⚠ Pull failed. Removing and re-cloning: 
+/home/user/login_github_backup/gists/name3
+✅ Repository cloned successfully: 
+/home/user/login_github_backup/gists/name3
+------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------
+Retrying failed gists: 1 remaining
+----------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------
+1/1/1: Retrying: name2
+-------------------------------------------------
+✅ Repository cloned successfully: 
+/home/user/login_github_backup/gists/name2
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------ https://github.com/smartlegionlab/ ------------------------------------------
+------------------------------------------ Copyright © 2018-2025, A.A. Suvorov -----------------------------------------
+************************************************************************************************************************
 ```
 
 ## Help:
