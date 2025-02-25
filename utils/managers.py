@@ -192,11 +192,12 @@ class AppManager:
             return {}
         else:
             self.printer.print_framed(f'✅ Found {count} {item_type}.')
-
-        status_dict = {}
+        print()
+        failed_dict = {}
+        failed_count = 0
 
         for index, (name, url) in enumerate(items.items(), start=1):
-            self.printer.print_framed(f'{index}/{count}: Cloning: {name}')
+            self.printer.print_framed(f'{index}/{count}/{failed_count}: Cloning: {name}')
             item_path = self.create_item_path(target_dir, name)
 
             if os.path.exists(item_path):
@@ -208,30 +209,28 @@ class AppManager:
             else:
                 success = self._git_clone(url, item_path)
 
-            if not success and os.path.exists(item_path):
+            if not success:
                 print(f"⚠️ Removing incomplete {item_type}: \n{item_path}")
-                shutil.rmtree(item_path)
+                if os.path.exists(item_path):
+                    shutil.rmtree(item_path)
+                failed_dict[name] = url
+                failed_count += 1
 
-            status_dict[name] = success
+        if not failed_dict:
+            return failed_dict
 
-        failed_items = [(name, url) for name, url in items.items() if not status_dict.get(name, False)]
-        total_failed = len(failed_items)
-
-        if not failed_items:
-            return status_dict
-
-        while failed_items:
+        while failed_dict:
             self.printer.print_center()
             print()
-            self.printer.print_framed(f"Retrying failed {item_type}: {len(failed_items)} remaining")
+            self.printer.print_framed(f"Retrying failed {item_type}: {len(failed_dict)} remaining")
             print()
             self.printer.print_center()
 
-            current_failed = failed_items.copy()
-            failed_items.clear()
+            current_failed = failed_dict.copy()
+            failed_dict.clear()
 
-            for index, (name, url) in enumerate(current_failed, start=1):
-                self.printer.print_framed(f'{index}/{total_failed}: Retrying: {name}')
+            for index, (name, url) in enumerate(current_failed.items(), start=1):
+                self.printer.print_framed(f'{index}/{len(current_failed)}/{failed_count}: Retrying: {name}')
                 item_path = self.create_item_path(target_dir, name)
 
                 if os.path.exists(item_path):
@@ -247,11 +246,11 @@ class AppManager:
                     print(f"⚠️ Removing incomplete {item_type}: \n{item_path}")
                     if os.path.exists(item_path):
                         shutil.rmtree(item_path)
-                    failed_items.append((name, url))
+                    failed_dict[name] = url
+                else:
+                    failed_count -= 1
 
-                status_dict[name] = success
-
-        return status_dict
+        return failed_dict
 
     def _create_archive(self, login):
         home_directory = os.path.expanduser('~')
