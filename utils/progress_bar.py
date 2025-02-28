@@ -30,13 +30,13 @@ class ProgressBar:
             progress_info += f' | {message}'
 
         min_bar_length = 10
-        available_width = console_width - len(progress_info) - 3  # 3 для "[] "
+        available_width = console_width - len(progress_info) - 3
 
         if available_width >= min_bar_length:
             bar_length = available_width
         else:
             bar_length = min_bar_length
-            max_info_length = console_width - (bar_length + 3)  # 3 для "[] "
+            max_info_length = console_width - (bar_length + 3)
             if len(progress_info) > max_info_length:
                 progress_info = progress_info[:max_info_length - 3] + '...'
 
@@ -55,5 +55,5 @@ class ProgressBar:
         self._progress_bar(current, total, failed, message)
 
     def finish(self, message='Progress completed!'):
-        self._clear_line()
+        # self._clear_line()
         print(f"\n✅ {message}\n")
