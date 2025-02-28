@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tools <sup>v0.8.0</sup>
+# GitHub Repositories Backup Tools <sup>v0.8.1</sup>
 
 ---
 
@@ -40,12 +40,10 @@ Author and developer: ___A.A. Suvorov___
 
 ### **What's New:**
 
-GitHub Repositories Backup Tools <sup>v0.8.0</sup>
+GitHub Repositories Backup Tools <sup>v0.8.1</sup>
 
-- Progress bar
-- Toggle between verbose output and progress bar
-- Bugs fixed
-- Improved user interface
+- Improved progress bar
+- Fixed the error of incorrect display of the progress bar when changing the width of the console.
 
 ***
 
