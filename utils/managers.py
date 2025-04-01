@@ -215,10 +215,10 @@ class AppManager:
         count = len(items)
 
         if not count:
-            self.printer.print_framed(f'⚠️ No {item_type} found.\n')
+            self.printer.print_framed(f'⚠️ No {item_type} found. \n')
             return {}
         else:
-            self.printer.print_framed(f'✅ Found {count} {item_type}')
+            self.printer.print_framed(f'✅ Found {count} {item_type} ')
         print()
         failed_dict = {}
         failed_count = 0
@@ -303,7 +303,7 @@ class AppManager:
             archive_creator = ArchiveCreator(clone_path)
             archive_creator.create_archive()
         else:
-            self.printer.print_framed("⚠️ Clone path not found")
+            self.printer.print_framed("⚠️ Clone path not found ")
 
     def stop(self, shutdown=False):
         self.printer.print_center()
