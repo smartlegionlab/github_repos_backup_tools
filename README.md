@@ -1,51 +1,138 @@
 # GitHub Repositories Backup Tools <sup>v0.8.1</sup>
 
----
-
-> An application for automatic cloning of GitHub repositories (including private ones).
-
-- Cloning repositories.
-- Cloning gist.
-- Creating an archive of the main folder with cloned repositories and gist.
-- Shutting down the computer after cloning.
-
-The folder and archive with cloned repositories are stored in your home directory.
-
-***
-
 ![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/github_repos_backup_tools)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/github_repos_backup_tools)](https://github.com/smartlegionlab/github_repos_backup_tools/)
 [![GitHub](https://img.shields.io/github/license/smartlegionlab/github_repos_backup_tools)](https://github.com/smartlegionlab/github_repos_backup_tools/blob/master/LICENSE)
 
-***
+> Professional solution for automatic cloning and backup of GitHub repositories and gists with enhanced reliability
 
-Author and developer: ___A.A. Suvorov___
+---
 
-***
+## 🔥 Key Features
 
-## Supported:
+- **Complete Backup** - Clone both public and private repositories/gists
+- **Smart Update System** - Existing clones are updated via `git pull`
+- **Resilient Retry Mechanism** - 5 automatic retries for failed operations
+- **Archive Support** - Create compressed ZIP archives
+- **System Control** - Option to shutdown/reboot after completion
+- **Real-time Monitoring** - Improved progress bar with statistics
+- **Cross-platform** - Works on Linux and Termux (Android)
 
-- Linux: (All)
-- Termux (Android)
+## 🚨 Important Notice
 
-***
-> ATTENTION! Recently, problems with cloning/updating repositories have been noticed,
-> so it was decided to release a new version of the application to solve the existing problems.
+- Added new --reboot flag that performs system reboot after completion
+- Made --reboot and --shutdown mutually exclusive using argparse group
+- Added reboot() method similar to shutdown() but for system restart
+- Changed the priority of receiving and checking information when initializing the application
+- Fixed incorrect display of some user interface elements
 
-- 5 retries will be used to obtain data.
-- When cloning/updating repositories, a retries mechanism will be used, which
-  will ultimately allow you to get the correct updated version of the repository, either by cloning,
-  or by updating.
-- Cloning/updating will be retried after a certain amount of time until it is successful.
+## 🚀 Quick Start Guide
 
-### **What's New:**
+### 1. Installation
+```bash
+git clone https://github.com/smartlegionlab/github_repos_backup_tools.git
+cd github_repos_backup_tools
+```
 
-GitHub Repositories Backup Tools <sup>v0.8.1</sup>
+### 2. Configuration
+Create `.config.ini` file:
+```ini
+[github]
+token = your_github_token_here
+```
 
-- Improved progress bar
-- Fixed the error of incorrect display of the progress bar when changing the width of the console.
+### 3. Generate GitHub Token
+1. Visit [GitHub Tokens](https://github.com/settings/tokens/new)
+2. Select permissions:
+   - ✅ `repo` (full repository access)
+   - ✅ `gist` (gist access)
+3. Generate and copy token
 
-***
+### 4. SSH Setup (Required)
+```bash
+# Generate SSH key
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# Add to ssh-agent
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+# Add to GitHub account
+cat ~/.ssh/id_ed25519.pub  # Copy this output
+# Paste at https://github.com/settings/keys
+
+# Verify connection
+ssh -T git@github.com
+```
+
+## 💻 Usage Options
+
+| Command       | Description                                  |
+|--------------|--------------------------------------------|
+| `-r`         | Clone all repositories                     |
+| `-g`         | Clone all gists                           |
+| `--archive`  | Create compressed backup archive          |
+| `--verbose`  | Show detailed debug output               |
+| `--shutdown` | Shutdown computer after completion      |
+| `--reboot`   | Restart computer after completion       |
+
+**Common Command Combinations:**
+```bash
+# Basic backup
+python app.py -r -g
+
+# Backup with archive creation
+python app.py -r --archive
+
+# Full backup with shutdown
+python app.py -r -g --shutdown
+
+# Debug mode
+python app.py -g --verbose
+```
+
+## 📂 File Structure
+Backups are organized in your home directory:
+```
+~/
+└── [username]_github_backup/
+    ├── repositories/  # All cloned repositories
+    ├── gists/        # All cloned gists
+ [username]_github_backup.zip    # Created when using --archive
+```
+
+## 🔧 Technical Details
+
+- **Retry Logic**: 5 attempts for each clone/update operation
+- **Timeout**: 20 seconds per git operation
+- **Error Handling**: Automatic cleanup of failed clones
+- **Progress Tracking**: Real-time visual feedback
+- **System Integration**: Supports shutdown/reboot commands
+
+## ❓ Frequently Asked Questions
+
+**Q: How to cancel scheduled shutdown?**  
+A: Use `shutdown -c` (Linux) or `shutdown /a` (Windows)
+
+**Q: Where are backups stored?**  
+A: In `~/[your_username]_github_backup/`
+
+**Q: How to update existing clones?**  
+A: Just run the tool again - it automatically does `git pull`
+
+## 📝 Changelog
+
+**v0.8.1 Updates:**
+- Added new --reboot flag that performs system reboot after completion
+- Made --reboot and --shutdown mutually exclusive using argparse group
+- Added reboot() method similar to shutdown() but for system restart
+- Changed the priority of receiving and checking information when initializing the application
+- Fixed incorrect display of some user interface elements
+---
+
+**Author**: A.A. Suvorov  
+**License**: [BSD 3-Clause "New" or "Revised" License](https://github.com/smartlegionlab/github_repos_backup_tools/blob/master/LICENSE)  
+**Support**: Open issue on [GitHub](https://github.com/smartlegionlab/github_repos_backup_tools/issues)
 
 **Example output without using the `--verbose` flag:**
 
@@ -70,6 +157,7 @@ Clone repositories: ✅
 Clone gists: ✅
 Make archive: ⚠
 Shutdown: ⚠
+Reboot: ✅
 Verbose: ⚠
 
 Forming a path to the directory:
@@ -114,6 +202,7 @@ Clone repositories: ✅
 Clone gists: ✅
 Make archive: ⚠
 Shutdown: ⚠
+Reboot: ✅
 Verbose: ✅
 
 Forming a path to the directory:
@@ -222,56 +311,6 @@ Retrying failed gists: 1 remaining
 ------------------------------------------ Copyright © 2018-2025, A.A. Suvorov -----------------------------------------
 ************************************************************************************************************************
 ```
-
-## Help:
-
-- `cd ~`
-- Clone or download project
-- `cd github_repos_backup_tools`
-- Create file `.config.ini`:
-
-### How to generate a token? 
-
-- [Follow the link and create Personal access tokens (classic)](https://github.com/settings/tokens/new)
-- Press 'Generate new token'. 
-- Select "repo"
-- Select "gist"
-- Generate the token.
-- Copy the token.
-
-
-Example file`.config.ini`:
-```ini
-[github]
-token = your_github_token
-```
-
-
-> ATTENTION! Before running the application, you must generate an ssh key 
-> for GitHub on your system and add it to your GitHub account.
-
-> You can use a ready-made tool: [github-ssh-key](https://github.com/smartlegionlab/github-ssh-key/) or:
-
-- `ssh-keygen -t ed25519 -C "email@gmail.com"` Replace with your email.
-- `eval "$(ssh-agent -s)"`
-- `ssh-add ~/.ssh/id_ed25519`
-
-Copy the key from the `/home/name/.ssh/id_ed25519.pub` file and add it to your GitHub account.
-- View and copy the key: `cat /home/name/.ssh/id_ed25519.pub`
-- [Link to adding a key to GitHub](https://github.com/settings/keys)
-
-- `ssh-keyscan github.com >> ~/.ssh/known_host`
-- `ssh -T git@github.com`
-
-The check should be successful.
-
-`python app.py -r -g` - Perform automatic cloning of both repositories and gists.
-
-- `-r` - Clone GitHub repositories.
-- `-g` - Clone GitHub gists.
-- `--archive` - Create archive.
-- `--verbose` - Enable verbose output.
-- `--shutdown` - Turn off the device after completing all actions.
 
 ***
 
