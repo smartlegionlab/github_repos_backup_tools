@@ -41,7 +41,9 @@ class AppManager:
         parser.add_argument("-r", action="store_true", help="Clone repositories")
         parser.add_argument("-g", action="store_true", help="Clone gists")
         parser.add_argument("--archive", action="store_true", help="Create archive")
-        parser.add_argument("--shutdown", action="store_true", help="Shutdown after completion")
+        mutex_group = parser.add_mutually_exclusive_group()
+        mutex_group.add_argument("--shutdown", action="store_true", help="Shutdown after completion")
+        mutex_group.add_argument("--reboot", action="store_true", help="Reboot after completion")
         parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
         return parser.parse_args()
 
@@ -59,6 +61,15 @@ class AppManager:
             os.system("shutdown /s /t 60")
         else:
             os.system("shutdown -h +1")
+        print()
+
+    @staticmethod
+    def reboot():
+        print()
+        if platform.system() == "Windows":
+            os.system("shutdown /r /t 60")
+        else:
+            os.system("shutdown -r +1")
         print()
 
     @staticmethod
@@ -159,12 +170,14 @@ class AppManager:
         clone_gists = args.g
         make_archive = args.archive
         exec_shutdown = args.shutdown
+        exec_reboot = args.reboot
         self.verbose = args.verbose
 
         print(f'Clone repositories: {self.get_yes_no(clone_repos)}')
         print(f'Clone gists: {self.get_yes_no(clone_gists)}')
         print(f'Make archive: {self.get_yes_no(make_archive)}')
         print(f'Shutdown: {self.get_yes_no(exec_shutdown)}')
+        print(f'Reboot: {self.get_yes_no(exec_reboot)}')
         print(f'Verbose: {self.get_yes_no(self.verbose)}\n')
 
         print('Forming a path to the directory:')
@@ -184,6 +197,8 @@ class AppManager:
 
         if exec_shutdown:
             self.shutdown()
+        elif exec_reboot:
+            self.reboot()
 
     def clone_items(self, target_dir: str, fetch_method, item_type: str) -> Dict[str, bool]:
         print()
