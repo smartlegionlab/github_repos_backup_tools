@@ -41,7 +41,9 @@ class AppManager:
         parser.add_argument("-r", action="store_true", help="Clone repositories")
         parser.add_argument("-g", action="store_true", help="Clone gists")
         parser.add_argument("--archive", action="store_true", help="Create archive")
-        parser.add_argument("--shutdown", action="store_true", help="Shutdown after completion")
+        mutex_group = parser.add_mutually_exclusive_group()
+        mutex_group.add_argument("--shutdown", action="store_true", help="Shutdown after completion")
+        mutex_group.add_argument("--reboot", action="store_true", help="Reboot after completion")
         parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
         return parser.parse_args()
 
@@ -59,6 +61,15 @@ class AppManager:
             os.system("shutdown /s /t 60")
         else:
             os.system("shutdown -h +1")
+        print()
+
+    @staticmethod
+    def reboot():
+        print()
+        if platform.system() == "Windows":
+            os.system("shutdown /r /t 60")
+        else:
+            os.system("shutdown -r +1")
         print()
 
     @staticmethod
@@ -129,9 +140,27 @@ class AppManager:
         print()
         token = self.config_parser.get_token()
         print(f'Getting a token from a .config.ini file: {self.get_yes_no(token)}\n')
+
         if not token:
             print("⚠️ ERROR! Please provide GitHub token in the config file.")
             return
+
+        print('Parsing arguments:\n')
+        args = self._parse_arguments()
+
+        clone_repos = args.r
+        clone_gists = args.g
+        make_archive = args.archive
+        exec_shutdown = args.shutdown
+        exec_reboot = args.reboot
+        self.verbose = args.verbose
+
+        print(f'Clone repositories: {self.get_yes_no(clone_repos)}')
+        print(f'Clone gists: {self.get_yes_no(clone_gists)}')
+        print(f'Make archive: {self.get_yes_no(make_archive)}')
+        print(f'Shutdown: {self.get_yes_no(exec_shutdown)}')
+        print(f'Reboot: {self.get_yes_no(exec_reboot)}')
+        print(f'Verbose: {self.get_yes_no(self.verbose)}\n')
 
         self.github_data_master.token = token
         print(f'Checking the token for validity:')
@@ -152,21 +181,6 @@ class AppManager:
 
         print(f'✅ Login: {login}\n')
 
-        print('Parsing arguments:\n')
-        args = self._parse_arguments()
-
-        clone_repos = args.r
-        clone_gists = args.g
-        make_archive = args.archive
-        exec_shutdown = args.shutdown
-        self.verbose = args.verbose
-
-        print(f'Clone repositories: {self.get_yes_no(clone_repos)}')
-        print(f'Clone gists: {self.get_yes_no(clone_gists)}')
-        print(f'Make archive: {self.get_yes_no(make_archive)}')
-        print(f'Shutdown: {self.get_yes_no(exec_shutdown)}')
-        print(f'Verbose: {self.get_yes_no(self.verbose)}\n')
-
         print('Forming a path to the directory:')
         path = self._create_clone_directory(login)
         print(f'✅ Path: {path}\n')
@@ -184,6 +198,8 @@ class AppManager:
 
         if exec_shutdown:
             self.shutdown()
+        elif exec_reboot:
+            self.reboot()
 
     def clone_items(self, target_dir: str, fetch_method, item_type: str) -> Dict[str, bool]:
         print()
@@ -199,10 +215,10 @@ class AppManager:
         count = len(items)
 
         if not count:
-            self.printer.print_framed(f'⚠️ No {item_type} found.\n')
+            self.printer.print_framed(f'⚠️ No {item_type} found. \n')
             return {}
         else:
-            self.printer.print_framed(f'✅ Found {count} {item_type}')
+            self.printer.print_framed(f'✅ Found {count} {item_type} ')
         print()
         failed_dict = {}
         failed_count = 0
@@ -287,7 +303,7 @@ class AppManager:
             archive_creator = ArchiveCreator(clone_path)
             archive_creator.create_archive()
         else:
-            self.printer.print_framed("⚠️ Clone path not found")
+            self.printer.print_framed("⚠️ Clone path not found ")
 
     def stop(self, shutdown=False):
         self.printer.print_center()
