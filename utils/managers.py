@@ -140,9 +140,27 @@ class AppManager:
         print()
         token = self.config_parser.get_token()
         print(f'Getting a token from a .config.ini file: {self.get_yes_no(token)}\n')
+
         if not token:
             print("⚠️ ERROR! Please provide GitHub token in the config file.")
             return
+
+        print('Parsing arguments:\n')
+        args = self._parse_arguments()
+
+        clone_repos = args.r
+        clone_gists = args.g
+        make_archive = args.archive
+        exec_shutdown = args.shutdown
+        exec_reboot = args.reboot
+        self.verbose = args.verbose
+
+        print(f'Clone repositories: {self.get_yes_no(clone_repos)}')
+        print(f'Clone gists: {self.get_yes_no(clone_gists)}')
+        print(f'Make archive: {self.get_yes_no(make_archive)}')
+        print(f'Shutdown: {self.get_yes_no(exec_shutdown)}')
+        print(f'Reboot: {self.get_yes_no(exec_reboot)}')
+        print(f'Verbose: {self.get_yes_no(self.verbose)}\n')
 
         self.github_data_master.token = token
         print(f'Checking the token for validity:')
@@ -162,23 +180,6 @@ class AppManager:
             return
 
         print(f'✅ Login: {login}\n')
-
-        print('Parsing arguments:\n')
-        args = self._parse_arguments()
-
-        clone_repos = args.r
-        clone_gists = args.g
-        make_archive = args.archive
-        exec_shutdown = args.shutdown
-        exec_reboot = args.reboot
-        self.verbose = args.verbose
-
-        print(f'Clone repositories: {self.get_yes_no(clone_repos)}')
-        print(f'Clone gists: {self.get_yes_no(clone_gists)}')
-        print(f'Make archive: {self.get_yes_no(make_archive)}')
-        print(f'Shutdown: {self.get_yes_no(exec_shutdown)}')
-        print(f'Reboot: {self.get_yes_no(exec_reboot)}')
-        print(f'Verbose: {self.get_yes_no(self.verbose)}\n')
 
         print('Forming a path to the directory:')
         path = self._create_clone_directory(login)
