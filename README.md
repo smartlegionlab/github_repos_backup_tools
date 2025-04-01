@@ -1,4 +1,4 @@
-# GitHub Repositories Backup Tools <sup>v0.8.1</sup>
+# GitHub Repositories Backup Tools <sup>v0.9.1</sup>
 
 ![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/github_repos_backup_tools)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/github_repos_backup_tools)](https://github.com/smartlegionlab/github_repos_backup_tools/)
@@ -122,7 +122,7 @@ A: Just run the tool again - it automatically does `git pull`
 
 ## 📝 Changelog
 
-**v0.8.1 Updates:**
+**v0.9.1 Updates:**
 - Added new --reboot flag that performs system reboot after completion
 - Made --reboot and --shutdown mutually exclusive using argparse group
 - Added reboot() method similar to shutdown() but for system restart
