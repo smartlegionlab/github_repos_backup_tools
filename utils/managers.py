@@ -14,6 +14,7 @@ import sys
 from typing import Dict
 import platform
 
+from utils.backup_reporter import BackupReporter
 from utils.archive_creator import ArchiveCreator
 from utils.progress_bar import ProgressBar
 
@@ -185,6 +186,9 @@ class AppManager:
         path = self._create_clone_directory(login)
         print(f'✅ Path: {path}\n')
 
+        repos_failed = {}
+        gists_failed = {}
+
         if clone_repos:
             repos_target_dir = os.path.join(path, "repositories")
             self.clone_items(repos_target_dir, self.github_data_master.fetch_repositories, "repositories")
@@ -195,6 +199,23 @@ class AppManager:
 
         if make_archive:
             self._create_archive(login)
+
+        try:
+            report = BackupReporter.generate(
+                clone_repos=clone_repos,
+                clone_gists=clone_gists,
+                make_archive=make_archive,
+                repos_data=getattr(self.github_data_master, "repositories", {}),
+                gists_data=getattr(self.github_data_master, "gists", {}),
+                failed_repos=repos_failed,
+                failed_gists=gists_failed,
+                backup_path=path
+            )
+            self.printer.print_center(text=' REPORT: ')
+            print(report)
+            self.printer.print_center()
+        except Exception as e:
+            print(f'Report generation failed: {str(e)}')
 
         if exec_shutdown:
             self.shutdown()
