@@ -87,6 +87,9 @@ python app.py -r --archive
 # Full backup with shutdown
 python app.py -r -g --shutdown
 
+# Full backup with reboot
+python app.py -r -g --reboot
+
 # Debug mode
 python app.py -g --verbose
 ```
