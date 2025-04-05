@@ -213,7 +213,6 @@ class AppManager:
             )
             self.printer.print_center(text=' REPORT: ')
             print(report)
-            self.printer.print_center()
         except Exception as e:
             print(f'Report generation failed: {str(e)}')
 
