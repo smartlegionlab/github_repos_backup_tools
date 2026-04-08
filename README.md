@@ -13,6 +13,16 @@ A professional solution for automatic cloning and backup of all your GitHub repo
 
 ---
 
+## ⚠️ Disclaimer
+
+**By using this software, you agree to the full disclaimer terms.**
+
+**Summary:** Software provided "AS IS" without warranty. You assume all risks.
+
+**Full legal disclaimer:** See [DISCLAIMER.md](https://github.com/smartlegionlab/github-repos-backup-tools/blob/master/DISCLAIMER.md)
+
+---
+
 **You can also use my other projects to work with repositories:**
 
 - [Smart Repository Manager GUI](https://github.com/smartlegionlab/smart-repository-manager-gui)
@@ -24,7 +34,7 @@ A professional solution for automatic cloning and backup of all your GitHub repo
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Full Backup** - clones ALL repositories (public and private) from your account and organizations
 - **Smart Update** - compares local commits with GitHub, updates only when needed
@@ -41,7 +51,7 @@ A professional solution for automatic cloning and backup of all your GitHub repo
 - **Fast Mode (Default)** - clones only default branch for maximum speed
 - **Full Mode** - `--all-branches` flag to enable synchronization of ALL branches
 
-## 📁 Structure
+## Structure
 
 ```
 ~/github_repos_backup_tools/              # Main application folder
@@ -57,14 +67,14 @@ A professional solution for automatic cloning and backup of all your GitHub repo
     └── user_info.json                       # Your GitHub profile information
 ```
 
-## 🖥 System Requirements
+## System Requirements
 
 - **Python**: 3.8+ (standard library only, no external dependencies)
 - **Git**: 2.20+
 - **Storage**: depends on repository sizes
 - **Network**: stable internet connection
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Installation
 ```bash
@@ -81,11 +91,11 @@ On first run, the program will ask for your GitHub token and save it.
 ### 3. Get GitHub Token
 1. Go to [GitHub Tokens](https://github.com/settings/tokens/new)
 2. Select permissions:
-   - ✅ `repo` (full repository access)
-   - ✅ `read:org` (access to organization repositories)
+   - `repo` (full repository access)
+   - `read:org` (access to organization repositories)
 3. Generate and copy the token
 
-## 💻 Usage
+## Usage
 
 ### Basic Commands
 | Command | Description |
@@ -123,7 +133,7 @@ python app.py -t
 python app.py -r --shutdown
 ```
 
-## 📊 Example Output
+## Example Output
 
 ```
 ********************************************************************************
@@ -207,7 +217,7 @@ Parsed arguments:
 ************************************************************************************
 ```
 
-## 🔄 How It Works
+## How It Works
 
 ### Operation Modes
 
@@ -276,7 +286,7 @@ This keeps your user folder clean and makes it easy to find all backups.
 - **SKIP**: if no changes detected, no operation performed
 - **No branch sync after clone**: significantly faster for large repositories with many branches
 
-## 🔒 Security
+## Security
 
 - Token stored in `~/github_repos_backup_tools/[username]/config.json`
 - Uses HTTPS with token in URL (not transmitted in plain text)
@@ -285,13 +295,13 @@ This keeps your user folder clean and makes it easy to find all backups.
 - Token can be updated with `-t` command
 - Archives contain ONLY repositories, no tokens or configs
 
-## ⚠️ Known Limitations
+## Known Limitations
 
 - **Gists not supported** - utility works with repositories only
 - **Git required** - must be installed on the system
 - **Token permissions** - requires `repo` and `read:org`
 
-## 🛠 Troubleshooting
+## Troubleshooting
 
 **Q: Authentication fails?**  
 A: Verify token has `repo` and `read:org` permissions. Use `-t` to update.
@@ -319,21 +329,21 @@ A: PULL updates code + branches, SYNC only syncs branches (when code hasn't chan
 
 ---
 
-## 🚀 What's New in v1.6.1
+## What's New in v1.6.1
 
-- ✅ **User profile export** - saves GitHub user info to `user_info.json`
-- ✅ **Organized backups** - all archives and reports in `backups/` folder
-- ✅ **Cleaner archives** - ZIP contains only repositories, no configs or tokens
-- ✅ **Improved structure** - `~/github_repos_backup_tools/[username]/backups/`
-- ✅ **Branch pruning** - automatically removes local branches deleted on remote
-- ✅ **No SSH required** - uses only HTTPS with token authentication
-- ✅ **Smart update** - two-stage verification (date + hash) before pull
-- ✅ **Health checks** - verifies repository integrity after each operation
-- ✅ **Automatic recovery** - re-clones corrupted repositories
-- ✅ **Exponential backoff** - up to 5 retries with increasing delays
-- ✅ **Two operation modes** - Fast (default) and Full (--all-branches)
-- ✅ **SKIP status** - clearly shows when repos are skipped (Fast Mode)
-- ✅ **SYNC status** - shows branch-only sync (Full Mode)
+- **User profile export** - saves GitHub user info to `user_info.json`
+- **Organized backups** - all archives and reports in `backups/` folder
+- **Cleaner archives** - ZIP contains only repositories, no configs or tokens
+- **Improved structure** - `~/github_repos_backup_tools/[username]/backups/`
+- **Branch pruning** - automatically removes local branches deleted on remote
+- **No SSH required** - uses only HTTPS with token authentication
+- **Smart update** - two-stage verification (date + hash) before pull
+- **Health checks** - verifies repository integrity after each operation
+- **Automatic recovery** - re-clones corrupted repositories
+- **Exponential backoff** - up to 5 retries with increasing delays
+- **Two operation modes** - Fast (default) and Full (--all-branches)
+- **SKIP status** - clearly shows when repos are skipped (Fast Mode)
+- **SYNC status** - shows branch-only sync (Full Mode)
 
 ### Two Operation Modes
 
@@ -352,96 +362,7 @@ A: PULL updates code + branches, SYNC only syncs branches (when code hasn't chan
 **Author**: Alexander Suvorov  
 **License**: [BSD 3-Clause License](https://github.com/smartlegionlab/github-repos-backup-tools/blob/master/LICENSE)  
 **Support**: [GitHub Issues](https://github.com/smartlegionlab/github-repos-backup-tools/issues)  
-**Source Code**: [https://github.com/smartlegionlab/](https://github.com/smartlegionlab/github-repos-backup-tools)
-
----
-
-## ⚠️ DISCLAIMER
-
-### COMPLETE AND UNCONDITIONAL WAIVER OF LIABILITY
-
-**BY USING, DOWNLOADING, INSTALLING, COMPILING, OR OTHERWISE INTERACTING WITH THIS SOFTWARE (THE "SOFTWARE"), YOU (THE "USER") EXPRESSLY AND IRREVOCABLY AGREE TO THE FOLLOWING TERMS:**
-
-#### 1. ABSOLUTE WAIVER OF LIABILITY
-
-THE AUTHOR, COPYRIGHT HOLDER, AND CONTRIBUTORS (COLLECTIVELY, THE "AUTHOR") SHALL NOT BE HELD LIABLE UNDER ANY CIRCUMSTANCES, WHETHER IN CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, OR ANY OTHER LEGAL OR EQUITABLE THEORY, FOR ANY:
-
-- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES
-- LOSS OF PROFITS, REVENUE, OR DATA
-- LOSS OF BUSINESS OPPORTUNITY OR GOODWILL
-- SYSTEM FAILURE OR MALFUNCTION
-- CORRUPTION OR LOSS OF FILES OR DATA
-- UNAUTHORIZED ACCESS TO OR DELETION OF FILES
-- HARDWARE DAMAGE OR FAILURE
-- ANY OTHER DAMAGES OR LOSSES WHATSOEVER
-
-**THIS WAIVER APPLIES EVEN IF THE AUTHOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.**
-
-#### 2. UNCONDITIONAL ACCEPTANCE OF RISK
-
-THE USER ACKNOWLEDGES AND ACCEPTS THAT:
-
-- THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES WHATSOEVER
-- THE USER ASSUMES ALL RISKS ASSOCIATED WITH THE USE OF THIS SOFTWARE
-- THE USER IS SOLELY RESPONSIBLE FOR BACKING UP ALL DATA BEFORE USING THE SOFTWARE
-- THE USER IS SOLELY RESPONSIBLE FOR VERIFYING ALL ACTIONS PERFORMED BY THE SOFTWARE
-- THE USER BEARS FULL RESPONSIBILITY FOR ANY CONSEQUENCES ARISING FROM THE USE OF THIS SOFTWARE
-
-#### 3. NO WARRANTIES
-
-TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE AUTHOR EXPRESSLY DISCLAIMS ALL WARRANTIES, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING BUT NOT LIMITED TO:
-
-- WARRANTIES OF MERCHANTABILITY
-- WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE
-- WARRANTIES OF TITLE OR NON-INFRINGEMENT
-- WARRANTIES OF ACCURACY, RELIABILITY, OR COMPLETENESS
-- WARRANTIES OF UNINTERRUPTED OR ERROR-FREE OPERATION
-
----
-
-## 🚧 DEVELOPMENT STATUS
-
-### ALPHA SOFTWARE NOTICE
-
-**THIS SOFTWARE IS IN ACTIVE DEVELOPMENT AND IS PROVIDED "AS IS" WITHOUT ANY WARRANTIES WHATSOEVER.**
-
-#### 1. DEVELOPMENT STAGE
-
-THE USER ACKNOWLEDGES AND ACCEPTS THAT:
-
-- THIS SOFTWARE IS CURRENTLY IN **ALPHA DEVELOPMENT STAGE**
-- THE SOFTWARE IS NOT YET FEATURE-COMPLETE OR STABLE
-- THE SOFTWARE IS SUBJECT TO SIGNIFICANT CHANGES WITHOUT NOTICE
-- THE SOFTWARE MAY CONTAIN BUGS, ERRORS, OR DEFICIENCIES
-- THE SOFTWARE MAY NOT FUNCTION AS INTENDED OR DOCUMENTED
-- THE SOFTWARE MAY NOT BE SUITABLE FOR PRODUCTION USE
-
-#### 2. UNPREDICTABLE BEHAVIOR
-
-THE USER UNDERSTANDS THAT THE SOFTWARE MAY EXHIBIT UNPREDICTABLE BEHAVIOR INCLUDING BUT NOT LIMITED TO:
-
-- CRASHES OR FREEZES DURING OPERATION
-- INCORRECT IDENTIFICATION OF DUPLICATE FILES
-- FAILURE TO DETECT ACTUAL DUPLICATES
-- ACCIDENTAL SELECTION OF INCORRECT FILES
-- UNINTENDED MOVEMENT OR DELETION OF FILES
-- DATA CORRUPTION OR LOSS
-- PERFORMANCE DEGRADATION OR HANGS
-- INCOMPATIBILITY WITH CERTAIN SYSTEMS OR CONFIGURATIONS
-- INCORRECT FILE HASH COMPUTATION
-- FAILURE TO PROPERLY HANDLE LARGE NUMBERS OF FILES
-
-#### 3. RECOMMENDATIONS
-
-THE USER IS STRONGLY ADVISED TO:
-
-- USE THE SOFTWARE ONLY FOR TESTING AND EVALUATION PURPOSES
-- NEVER USE THE SOFTWARE WITH CRITICAL OR IRREPLACEABLE DATA
-- ALWAYS MAINTAIN COMPLETE AND VERIFIED BACKUPS
-- TEST THE SOFTWARE THOROUGHLY IN A SAFE ENVIRONMENT FIRST
-- VERIFY ALL ACTIONS AND SELECTIONS BEFORE EXECUTING THEM
-- REPORT ANY ISSUES OR UNEXPECTED BEHAVIOR TO THE AUTHOR
-- READ THE DOCUMENTATION CAREFULLY BEFORE USE
+**Source Code**: [smartlegionlab/github-repos-backup-tools](https://github.com/smartlegionlab/github-repos-backup-tools)
 
 ---
 
